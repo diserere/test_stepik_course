@@ -12,5 +12,6 @@ def main():
     ic(my_config.MAX_LEVEL)
     ic(my_config.SERVER_NAME)
 
+
 if __name__ == "__main__":
     main()

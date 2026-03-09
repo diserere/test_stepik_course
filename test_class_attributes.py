@@ -1,7 +1,7 @@
 from icecream import ic
 
-class Car:
 
+class Car:
     number_of_wheels = 4
     cars_produced = 0
 
@@ -21,7 +21,8 @@ class Car:
 
 def header(text: str, n: int = 4) -> None:
     symbol = "-"
-    print (f"\n{symbol * n}[ {text} ]\n")
+    print(f"\n{symbol * n}[ {text} ]\n")
+
 
 def main():
 
@@ -44,7 +45,9 @@ def main():
 
     header("LIST")
     for car in (car_1, car_2, car_3):
-        print(f"{car.model} is {car.color}, has {car.number_of_wheels} wheels and was produced in {car.year}; engine started: {car.is_engine_on}")
+        print(
+            f"{car.model} is {car.color}, has {car.number_of_wheels} wheels and was produced in {car.year}; engine started: {car.is_engine_on}"
+        )
         print(f"- On {car.model}: cars_produced: {car.cars_produced}")
 
     header("TOTAL")
