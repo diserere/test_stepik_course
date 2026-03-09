@@ -147,27 +147,27 @@ def test_transport_system():
 
         def display_info(self):
             print(f"Марка: {self.brand}")
-            print(f"Макс. скорость: {self._max_speed} км/ч")
-            print(f"Пробег: {self._mileage} км")
+            print(f"Макс. скорость: {self.get_max_speed()} км/ч")
+            print(f"Пробег: {self.get_mileage()} км")
 
     class Car(Vehicle):
-        # def __init__(self, brand, max_speed, engine_type):
-        def __init__(self, brand, max_speed, engine_type: Literal["Бензин", "Электро"]):
+        # def __init__(self, brand, max_speed, engine_type: Literal["Бензин", "Электро"]):
+        def __init__(self, brand, max_speed, engine_type):
             super().__init__(brand, max_speed)
-            self._engine_type = engine_type
+            self.engine_type = engine_type
 
         def display_info(self):
             super().display_info()
-            print(f"Тип двигателя: {self._engine_type}")
+            print(f"Тип двигателя: {self.engine_type}")
 
     class Bicycle(Vehicle):
         def __init__(self, brand, max_speed, frame_material):
             super().__init__(brand, max_speed)
-            self._frame_material = frame_material
+            self.frame_material = frame_material
 
         def display_info(self):
             super().display_info()
-            print(f"Материал рамы: {self._frame_material}")
+            print(f"Материал рамы: {self.frame_material}")
 
     # Создаем объекты разных классов
     tesla = Car("Tesla", 250, "Электро")
