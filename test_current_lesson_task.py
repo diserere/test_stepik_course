@@ -290,10 +290,9 @@ def test_game_characters():
         def get_status(self):
             return super().get_status() + f", Мана: {self.get_mana()}"
 
-
     # Создаем персонажей
-    warrior = Warrior("Конан", 15, 5) # Урон 15, Броня 5
-    mage = Mage("Раистлин", 20, 100) # Урон 20, Мана 100
+    warrior = Warrior("Конан", 15, 5)  # Урон 15, Броня 5
+    mage = Mage("Раистлин", 20, 100)  # Урон 20, Мана 100
 
     print(warrior.get_status())
     print(mage.get_status())
@@ -301,14 +300,14 @@ def test_game_characters():
 
     # Маг атакует воина
     mage.attack(warrior)
-    print(warrior.get_status()) # Воин должен получить 15 урона (20 - 5 брони)
+    print(warrior.get_status())  # Воин должен получить 15 урона (20 - 5 брони)
 
     # Воин атакует мага
     warrior.attack(mage)
-    print(mage.get_status()) # Маг должен получить 15 урона
+    print(mage.get_status())  # Маг должен получить 15 урона
 
     # Проверка логики мага
     # mage.mana = 5 # Устанавливаем мало маны
-    mage.set_mana(5) # Устанавливаем мало маны
+    mage.set_mana(5)  # Устанавливаем мало маны
     mage.attack(warrior)
-    print(warrior.get_status()) # Здоровье воина не должно измениться
+    print(warrior.get_status())  # Здоровье воина не должно измениться
