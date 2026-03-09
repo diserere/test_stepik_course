@@ -1,11 +1,10 @@
-
 from icecream import ic
 
 
 def test_char():
     class Character:
         character_count = 0
-        
+
         def __init__(self, name):
             self.name = name
             Character.character_count += 1
@@ -19,8 +18,6 @@ def test_char():
     char_2 = Character("Alice")  # noqa: F841
     assert Character.character_count == 2
     ic(Character.character_count)
-
-
 
 
 def test_method_overload():
@@ -44,7 +41,7 @@ def test_method_overload_2():
     class TimestampLogger(Logger):
         def log(self, message):
             return f"{super().log(message)} (timestamp)"
-        
+
     ic(Logger().log("test"))
     ic(TimestampLogger().log("test"))
 
@@ -141,10 +138,10 @@ def test_transport_system():
 
         def get_max_speed(self):
             return self._max_speed
-        
+
         def get_mileage(self):
             return self._mileage
-        
+
         def drive(self, distance):
             self._mileage += distance
 
@@ -172,11 +169,11 @@ def test_transport_system():
             super().display_info()
             print(f"Материал рамы: {self._frame_material}")
 
-
     # Создаем объекты разных классов
     tesla = Car("Tesla", 250, "Электро")
     bmw = Car("BMW", 280, "Бензин")
-    kamaz = Car("KamAZ", 80, "diezel") # pyright: ignore[reportArgumentType]
+    # kamaz = Car("KamAZ", 80, "diezel")
+    kamaz = Car("KamAZ", 80, "diezel")  # pyright: ignore[reportArgumentType]
     trek = Bicycle("Trek", 40, "Карбон")
 
     # Демонстрируем полиморфизм: работаем с разными объектами через общий интерфейс
@@ -184,14 +181,14 @@ def test_transport_system():
     vehicles: list[Vehicle] = [tesla, bmw, trek, kamaz]
     for vehicle in vehicles:
         print("---")
-        vehicle.display_info() # Один и тот же вызов - разное поведение
-        distance = len(vehicle.brand)*100
+        vehicle.display_info()  # Один и тот же вызов - разное поведение
+        distance = len(vehicle.brand) * 100
         vehicle.drive(distance=distance)
         print(f"Машина проехала {distance} км")
         vehicle.drive(distance=distance)
         print(f"Машина проехала еще {distance} км")
         print(f"Пробег после поездки: {vehicle.get_mileage()} км")
 
-    print("\n" + "="*30)
+    print("\n" + "=" * 30)
     # Демонстрируем работу атрибута класса
     print(f"Всего создано транспортных средств: {Vehicle.vehicles_created}")
