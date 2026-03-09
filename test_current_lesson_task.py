@@ -231,3 +231,84 @@ def test_library_system():
     for pub in publications:
         # Один и тот же вызов - разное поведение
         print(pub.get_info())
+
+
+def test_game_characters():
+
+    class Character:
+        def __init__(self, name, damage) -> None:
+            self.name = name
+            self._health = 100
+            self._damage = damage
+
+        def attack(self, target: "Character"):
+            if hasattr(target, "take_damage"):
+                target.take_damage(self._damage)
+
+        def take_damage(self, amount):
+            self._health -= amount
+
+        def get_health(self):
+            return self._health
+
+        def get_status(self):
+            return f"Имя: {self.name}, Здоровье: {self.get_health()}"
+
+    class Warrior(Character):
+        def __init__(self, name, damage, armor) -> None:
+            super().__init__(name, damage)
+            self._armor = armor
+
+        def get_armor(self):
+            return self._armor
+
+        def take_damage(self, amount):
+            amount = max(0, amount - self._armor)
+            super().take_damage(amount)
+
+        def get_status(self):
+            return super().get_status() + f", Броня: {self.get_armor()}"
+
+    class Mage(Character):
+        def __init__(self, name, damage, mana) -> None:
+            super().__init__(name, damage)
+            self._mana = mana
+
+        def get_mana(self):
+            return self._mana
+
+        def set_mana(self, mana):
+            self._mana = mana
+
+        def attack(self, target: Character):
+            attack_cost = 10
+            if self.get_mana() >= attack_cost:
+                super().attack(target)
+                # self._mana -= attack_cost
+                self.set_mana(self.get_mana() - attack_cost)
+
+        def get_status(self):
+            return super().get_status() + f", Мана: {self.get_mana()}"
+
+
+    # Создаем персонажей
+    warrior = Warrior("Конан", 15, 5) # Урон 15, Броня 5
+    mage = Mage("Раистлин", 20, 100) # Урон 20, Мана 100
+
+    print(warrior.get_status())
+    print(mage.get_status())
+    print("--- Битва ---")
+
+    # Маг атакует воина
+    mage.attack(warrior)
+    print(warrior.get_status()) # Воин должен получить 15 урона (20 - 5 брони)
+
+    # Воин атакует мага
+    warrior.attack(mage)
+    print(mage.get_status()) # Маг должен получить 15 урона
+
+    # Проверка логики мага
+    # mage.mana = 5 # Устанавливаем мало маны
+    mage.set_mana(5) # Устанавливаем мало маны
+    mage.attack(warrior)
+    print(warrior.get_status()) # Здоровье воина не должно измениться
