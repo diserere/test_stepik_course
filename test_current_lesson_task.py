@@ -366,7 +366,8 @@ def test_game_characters():
     # mage.set_mana(100)
     # mage.set_mana(111)
     mage.set_mana(123)
-    warrior.set_armor(5)
+    # Меняем защиту воину
+    warrior.set_armor(6)
     print()
 
     while True:
