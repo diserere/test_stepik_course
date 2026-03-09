@@ -125,7 +125,7 @@ def test_parent_extend_2():
 
 
 def test_transport_system():
-    from typing import Literal
+    # from typing import Literal
 
     class Vehicle:
         vehicles_created = 0
