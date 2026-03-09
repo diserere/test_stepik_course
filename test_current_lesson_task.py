@@ -204,7 +204,7 @@ def test_library_system():
 
         def get_info(self):
             return f'"{self.title}" ({self._author}, {self._year})'
-        
+
     class Book(Publication):
         def __init__(self, title, author, year, isbn) -> None:
             super().__init__(title, author, year)
@@ -220,9 +220,8 @@ def test_library_system():
             self._editor = self._author
 
         def get_info(self):
-            # return super().get_info()   
-            return f'"{self.title}" (Ред. {self._editor},  {self._year}), Выпуск №{self.issue_number}'  
-
+            # return super().get_info()
+            return f'"{self.title}" (Ред. {self._editor},  {self._year}), Выпуск №{self.issue_number}'
 
     # Создаем объекты разных классов
     book = Book("Война и мир", "Лев Толстой", 1869, "978-5-389-06254-2")
