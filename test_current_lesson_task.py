@@ -192,3 +192,44 @@ def test_transport_system():
     print("\n" + "=" * 30)
     # Демонстрируем работу атрибута класса
     print(f"Всего создано транспортных средств: {Vehicle.vehicles_created}")
+
+
+def test_library_system():
+
+    class Publication:
+        def __init__(self, title, author, year) -> None:
+            self.title = title
+            self._author = author
+            self._year = year
+
+        def get_info(self):
+            return f'"{self.title}" ({self._author}, {self._year})'
+        
+    class Book(Publication):
+        def __init__(self, title, author, year, isbn) -> None:
+            super().__init__(title, author, year)
+            self.isbn = isbn
+
+        def get_info(self):
+            return super().get_info() + f", ISBN: {self.isbn}"
+
+    class Magazine(Publication):
+        def __init__(self, title, editor, year, issue_number) -> None:
+            super().__init__(title=title, author=editor, year=year)
+            self.issue_number = issue_number
+            self._editor = self._author
+
+        def get_info(self):
+            # return super().get_info()   
+            return f'"{self.title}" (Ред. {self._editor},  {self._year}), Выпуск №{self.issue_number}'  
+
+
+    # Создаем объекты разных классов
+    book = Book("Война и мир", "Лев Толстой", 1869, "978-5-389-06254-2")
+    magazine = Magazine("National Geographic", "Сьюзан Голдберг", 2021, 8)
+
+    # Демонстрируем полиморфизм
+    publications = [book, magazine]
+    for pub in publications:
+        # Один и тот же вызов - разное поведение
+        print(pub.get_info())
