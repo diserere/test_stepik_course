@@ -234,25 +234,43 @@ def test_library_system():
 
 
 def test_game_characters():
+    from time import sleep
 
-    class Character:
-        def __init__(self, name, damage) -> None:
+    class GameObject:
+        def __init__(self, name) -> None:
             self.name = name
+
+        def get_status(self):
+            return f"-- Имя: {self.name}"
+
+    class Character(GameObject):
+        def __init__(self, name, damage) -> None:
+            # self.name = name
+            super().__init__(name)
             self._health = 100
             self._damage = damage
 
-        def attack(self, target: "Character"):
-            if hasattr(target, "take_damage"):
+        # def attack(self, target: "Character"):
+        def attack(self, target: GameObject):
+            print(f"{self.name} атакует {target.name}")
+            # if hasattr(target, "take_damage"):
+            if isinstance(target, Character):
+                print(f"-- {self.name} атаковал {target.name} с силой {self._damage}")
                 target.take_damage(self._damage)
+            else:
+                print(f"-- {target.name} нельзя нанести урон")
+            self.get_status()
 
         def take_damage(self, amount):
             self._health -= amount
+            print(f"-- {self.name} получил урон {amount}")
+            self.get_status()
 
         def get_health(self):
             return self._health
 
         def get_status(self):
-            return f"Имя: {self.name}, Здоровье: {self.get_health()}"
+            return super().get_status() + f", Здоровье: {self.get_health()}"
 
     class Warrior(Character):
         def __init__(self, name, damage, armor) -> None:
@@ -261,6 +279,10 @@ def test_game_characters():
 
         def get_armor(self):
             return self._armor
+
+        def set_armor(self, armor):
+            self._armor = armor
+            print(f"Прочность брони у {self.name} изменилось до {self.get_armor()}")
 
         def take_damage(self, amount):
             amount = max(0, amount - self._armor)
@@ -272,20 +294,28 @@ def test_game_characters():
     class Mage(Character):
         def __init__(self, name, damage, mana) -> None:
             super().__init__(name, damage)
-            self._mana = mana
+            self.mana = mana
 
         def get_mana(self):
-            return self._mana
+            return self.mana
 
         def set_mana(self, mana):
-            self._mana = mana
+            self.mana = mana
+            print(f"Количество маны у {self.name} изменилось до {self.get_mana()}")
 
-        def attack(self, target: Character):
+        # def attack(self, target: Character):
+        def attack(self, target: GameObject):
+            print(f"{self.name} собирает магическую силу для атаки")
             attack_cost = 10
             if self.get_mana() >= attack_cost:
                 super().attack(target)
                 # self._mana -= attack_cost
                 self.set_mana(self.get_mana() - attack_cost)
+            else:
+                print(
+                    f"-- {self.name} не может атаковать {target.name}: недостаточно маны ({self.get_mana()}) "
+                    f"для нанесения удара ({attack_cost})"
+                )
 
         def get_status(self):
             return super().get_status() + f", Мана: {self.get_mana()}"
@@ -293,21 +323,74 @@ def test_game_characters():
     # Создаем персонажей
     warrior = Warrior("Конан", 15, 5)  # Урон 15, Броня 5
     mage = Mage("Раистлин", 20, 100)  # Урон 20, Мана 100
+    stone = GameObject("Камень")
 
     print(warrior.get_status())
     print(mage.get_status())
+    print(stone.get_status())
+
     print("--- Битва ---")
 
     # Маг атакует воина
     mage.attack(warrior)
-    print(warrior.get_status())  # Воин должен получить 15 урона (20 - 5 брони)
+    print("--", warrior.get_status())  # Воин должен получить 15 урона (20 - 5 брони)
 
     # Воин атакует мага
     warrior.attack(mage)
-    print(mage.get_status())  # Маг должен получить 15 урона
+    print("--", mage.get_status())  # Маг должен получить 15 урона
+
+    # Маг атакует камень
+    mage.attack(stone)
+    print("--", mage.get_status())  # Маг должен получить -t0 маны
+    print("--", stone.get_status()) 
 
     # Проверка логики мага
     # mage.mana = 5 # Устанавливаем мало маны
-    mage.set_mana(5)  # Устанавливаем мало маны
+    small_mana = 5
+    print("--", f"Меняем магу ману до {small_mana}")
+    mage.set_mana(small_mana)  # Устанавливаем мало маны
     mage.attack(warrior)
-    print(warrior.get_status())  # Здоровье воина не должно измениться
+    print("--", warrior.get_status())  # Здоровье воина не должно измениться
+
+
+    print()
+    print("*" * 20)
+    print()
+    print("---- Турнир ----")
+    print()
+
+    round = 1
+    round_pair: list[Character] = [mage, warrior]
+    # Восстанавливаем ману магу
+    # mage.set_mana(40)
+    # mage.set_mana(100)
+    # mage.set_mana(111)
+    mage.set_mana(123)
+    warrior.set_armor(5)
+    print()
+
+    while True:
+        attacker, target = round_pair
+        print(f"---- Раунд {round}: [ {attacker.name} ] vs [ {target.name} ]")
+
+        print()
+        # Первый персонаж атакует камень
+        attacker.attack(stone)
+
+        print()
+        # Первый персонаж атакует второго
+        attacker.attack(target)
+
+        print()
+        print("- Итоги раунда:")
+        print(attacker.get_status())  # Воин должен получить 15 урона (20 - 5 брони)
+        print(target.get_status())  # Воин должен получить 15 урона (20 - 5 брони)
+        if target.get_health() <= 0:
+            print()
+            print(f"Турнир окончен: {target.name} погиб.")
+            break
+
+        print()
+        sleep(1)
+        round_pair = round_pair[::-1]
+        round += 1
