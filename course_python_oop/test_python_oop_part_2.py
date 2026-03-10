@@ -247,3 +247,13 @@ def test_eq_objects():
     ic(person_1 == person_2)
     ic(person_1 == person_3)
     ic(person_1 == person_4)
+
+    try:
+        is_equal_to_str = person_1 == "Alice"
+    except Exception as e:
+        ic(e)
+    finally:
+        try:
+            ic(is_equal_to_str)
+        except Exception as e:
+            ic(e)
