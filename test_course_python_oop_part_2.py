@@ -44,10 +44,36 @@ def test_magic_repr():
             self.x = x
             self.y = y
 
-        def __repr__(self):
-            return f"Point(x={self.x!r}, y={self.y!r})"
+        def __repr__(self) -> str:
+            return f"{self.__class__.__name__}(x={self.x!r}, y={self.y!r})"
 
     point = Point(10, 20)
 
     ic(point)
     print(point)
+
+
+def test_repr_as_str_replace():
+    """
+    1.3 Строковое представление: __str__ и __repr__.
+
+    Задача 3: __repr__ как замена __str__
+
+    Условие:
+        Создайте класс Player.
+        1. В __init__ он должен принимать nickname и level.
+        2. Реализуйте только метод __repr__, который возвращает строку в формате: Player(nickname='[nickname]', level=[level]).
+    """
+
+    class Player:
+        def __init__(self, nickname: str, level: int):
+            self.nickname = nickname
+            self.level = level
+
+        def __repr__(self) -> str:
+            return f"{self.__class__.__name__}(nickname={self.nickname!r}, level={self.level!r})"
+
+    player = Player("Gendalf", 100)
+
+    ic(player)
+    print(player)
