@@ -29,6 +29,4 @@ jobs:
 
     - name: Run tests
       run: |
-        pytest --fixtures
-        pytest --collect-only
         pytest
