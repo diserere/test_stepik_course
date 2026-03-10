@@ -288,3 +288,95 @@ def test_magic_len():
 
     playlist = Playlist("My Playlist", ["Song 1", "Song 2", "Song 3"])
     ic(playlist, len(playlist))
+
+
+def test_magic_getitem():
+    """
+    1.4 Перегрузка операторов
+
+    Задача 4: Доступ по индексу (__getitem__)
+
+    Условие:
+    - Научите ваш объект вести себя как словарь, позволяя получать доступ к его внутренним данным через синтаксис квадратных скобок ([]).
+    - Вам нужно:
+        1. Создать класс Grades (Оценки).
+        2. В методе __init__ не нужно принимать никаких аргументов. Вместо этого создайте внутри него защищенный атрибут self._grades и присвойте ему словарь с оценками: {"math": 5, "history": 4}.
+        3. Реализовать метод __getitem__(self, subject). Этот метод будет вызываться при обращении grades["math"]. Он должен:
+            - Принимать subject (название предмета в виде строки).
+            - Возвращать (return) оценку для этого предмета из внутреннего словаря self._grades.
+    """
+
+    class Grades:
+        def __init__(self) -> None:
+            self._grades = {"math": 5, "history": 4}
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        def __getitem__(self, subject):
+            # return self._grades.get(subject, 0)
+            return self._grades[subject]
+
+    grades = Grades()
+    ic(grades)
+
+    ic(grades["math"])
+    ic(grades["history"])
+    try:
+        ic(grades["science"])
+    except Exception as e:
+        ic(e)
+
+
+def test_magic_lt():
+    """
+    1.4 Перегрузка операторов
+
+    Задача 5: Сортировка объектов (__lt__)
+
+    Условие:
+    - Научите объекты класса Item (Предмет) быть сортируемыми. Встроенная функция sorted() сможет работать с вашими объектами, если вы объясните ей, какой из двух объектов считать "меньше".
+    - Вам нужно:
+        1. Создать класс Item.
+        2. В методе __init__ он должен принимать name и price.
+        3. Реализовать метод __lt__(self, other). lt означает "less than" (меньше чем). Метод будет вызываться при сравнении item1 < item2. Он должен:
+            - Принимать другой объект Item в качестве other.
+            - Возвращать True, если цена self.price строго меньше цены other.price.
+            - Возвращать False во всех остальных случаях.
+        4. Реализовать метод __repr__(self). Для корректной работы тестов и наглядного вывода он должен возвращать строку в формате Item('[name]', [price]), например: Item('Телефон', 50000).
+    """
+
+    class Item:
+        def __init__(self, name: str, price: float) -> None:
+            self.name = name
+            self.price = price
+
+        def __repr__(self):
+            # variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            # return f"{type(self).__name__}({', '.join(variables)})"
+            return f"{type(self).__name__}({self.name!r}, {self.price!r})"
+
+        def __lt__(self, other):
+            if not isinstance(other, self.__class__):
+                # return NotImplemented
+                return False
+            return self.price < other.price
+
+    item_1 = Item("Item 1", 2)
+    item_2 = Item("Item 2", 2)
+    item_3 = Item("Item 3", 3)
+    item_4 = Item("Item 4", 1)
+
+    ic(item_1)
+    ic(item_2)
+    ic(item_3)
+    ic(item_4)
+
+    ic(item_1 < item_2)
+    ic(item_1 < item_3)
+    ic(item_1 < item_4)
+    try:
+        ic(item_1 < 3)
+    except Exception as e:
+        ic(e)
