@@ -1,7 +1,7 @@
 """Simple HTTP server with URL paths handling."""
 
 import http.server
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import parse_qs, urlparse
 
 
 class MyRequestHandler(http.server.BaseHTTPRequestHandler):

@@ -1,0 +1,21 @@
+[tool.ruff]
+# Общие настройки Ruff
+line-length = 120
+# target-version = "py310" # Указывает Ruff, какой синтаксис Python считать допустимым
+target-version = "py313" # Указывает Ruff, какой синтаксис Python считать допустимым
+
+[tool.ruff.lint]
+# Какие правила проверять (select) и игнорировать (ignore)
+select = [
+    "E",  # Ошибки pycodestyle
+    "F",  # Ошибки Pyflakes (неиспользуемые импорты и т.д.)
+    "I",  # Сортировка импортов (заменяет isort)
+    "B",  # Находит вероятные баги (flake8-bugbear)
+]
+ignore = ["E501"] # Игнорировать длину строки (если где-то Ruff все же решит придраться)
+
+[tool.pytest.ini_options]
+# Настройки для pytest, чтобы не писать флаги в консоли
+testpaths = ["course_python_oop"]
+python_files = "test_*.py"
+addopts = "-vs"
