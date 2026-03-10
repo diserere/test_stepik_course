@@ -149,4 +149,52 @@ def test_str_with_formatting():
     print(t_2)
 
 
-# def 
+def test_add_vectors():
+    """
+    1.4 Перегрузка операторов
+
+    Задача 1: Сложение векторов (__add__)
+
+    Условие:
+    - Ваша задача — научить объекты класса Vector складываться друг с другом с помощью оператора +.
+    - Вам нужно:
+        1. Создать класс Vector.
+        2. В методе __init__ он должен принимать два аргумента, x и y, и сохранять их в одноименные атрибуты self.x и self.y.
+        3. Реализовать метод __add__(self, other). Этот метод будет вызываться при сложении двух векторов (v1 + v2). Он должен:
+            - Принимать другой объект Vector в качестве аргумента other.
+            - Возвращать (return) новый объект Vector.
+            - Координаты нового вектора должны быть равны сумме координат исходных векторов (т.е. self.x + other.x и self.y + other.y).
+        4. Реализовать метод __repr__(self). Для корректной работы тестов и наглядного вывода он должен возвращать строку в строго заданном формате, например, для вектора с x=1 и y=2 строка должна быть Vector(1, 2).
+
+
+    """
+
+    class Vector:
+        def __init__(self, x: int, y: int):
+            self.x = x
+            self.y = y
+
+        def __repr__(self):
+            return f"{type(self).__name__}({self.x}, {self.y})"
+
+        def __add__(self, other):
+            if not isinstance(other, self.__class__):
+                return NotImplemented
+            return self.__class__(self.x + other.x, self.y + other.y)
+
+    vector_1 = Vector(1, 1)
+    vector_2 = Vector(2, -2)
+
+    sum_vector = vector_1 + vector_2
+    ic(sum_vector)
+    print(sum_vector)
+
+    try:
+        fake_vector = vector_1 + 10
+    except Exception as e:
+        ic(e)
+    finally:
+        try:
+            ic(fake_vector)
+        except Exception as e:
+            ic(e)
