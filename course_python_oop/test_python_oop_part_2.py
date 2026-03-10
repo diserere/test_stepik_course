@@ -410,5 +410,64 @@ def test_property():
 
     circle = Circle(10)
     ic(circle)
-
     ic(circle.area)
+
+
+def test_property_setter():
+    """
+    1.5 Свойства (@property): элегантная инкапсуляция
+
+    Задача 2: @property и @*.setter
+
+    Условие:
+    - Теперь давайте создадим полноценное свойство, которое можно и читать, и безопасно изменять.
+    - Вам нужно:
+        1. Создать класс Temperature.
+        2. В __init__ создать защищенный атрибут self._celsius со значением 0.
+        3. Создать свойство celsius для доступа к self._celsius:
+            - Геттер (с @property): должен просто возвращать self._celsius.
+            - Сеттер (с @celsius.setter): должен принимать новое значение new_celsius и, если оно не ниже абсолютного нуля (-273.15), присваивать его self._celsius. Если значение некорректно, атрибут меняться не должен.
+    """
+
+    class Temperature:
+        ABSOLUTE_ZERO = -273.15
+
+        def __init__(self) -> None:
+            self._celsius: float = 0
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @property
+        def celsius(self):
+            return self._celsius
+
+        @celsius.setter
+        def celsius(self, new_celsius: float):
+            if isinstance(new_celsius, (int, float)) and new_celsius >= self.ABSOLUTE_ZERO:
+                self._celsius = new_celsius
+            # else:
+            #     raise ValueError(
+            #         f"Значение должно быть (int, float) и не может быть ниже абсолютного нуля ({self.ABSOLUTE_ZERO})"
+            #     )
+
+    t = Temperature()
+    ic(t)
+    ic(t.celsius)
+    t.celsius = 22
+    ic(t.celsius)
+    t.celsius = -35.6
+    ic(t.celsius)
+    try:
+        t.celsius = -350
+    except Exception as e:
+        ic(e)
+    finally:
+        ic(t.celsius)
+    try:
+        t.celsius = "356"  # pyright: ignore[reportAttributeAccessIssue]
+    except Exception as e:
+        ic(e)
+    finally:
+        ic(t.celsius)
