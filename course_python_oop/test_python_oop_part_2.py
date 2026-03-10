@@ -257,3 +257,34 @@ def test_eq_objects():
             ic(is_equal_to_str)
         except Exception as e:
             ic(e)
+
+
+def test_magic_len():
+    """
+    1.4 Перегрузка операторов
+
+    Задача 3: Получение длины (__len__)
+
+    Условие:
+    - Научите ваш кастомный объект сообщать свою "длину" через встроенную функцию len().
+    - Вам нужно:
+        1. Создать класс Playlist.
+        2. В методе __init__ он должен принимать два аргумента: title (название плейлиста) и songs (список строк с названиями песен). Сохраните их в одноименные атрибуты.
+        3. Реализовать метод __len__(self). Этот метод будет вызываться при len(playlist). Он должен:
+            - Возвращать (return) целое число, равное количеству песен в плейлисте (т.е. длине списка self.songs).
+    """
+
+    class Playlist:
+        def __init__(self, title: str, songs: list[str]) -> None:
+            self.title = title
+            self.songs = songs
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        def __len__(self) -> int:
+            return len(self.songs)
+
+    playlist = Playlist("My Playlist", ["Song 1", "Song 2", "Song 3"])
+    ic(playlist, len(playlist))
