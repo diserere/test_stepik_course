@@ -353,14 +353,11 @@ def test_magic_lt():
             self.price = price
 
         def __repr__(self):
-            # variables = [f"{k}={v!r}" for k, v in vars(self).items()]
-            # return f"{type(self).__name__}({', '.join(variables)})"
             return f"{type(self).__name__}({self.name!r}, {self.price!r})"
 
         def __lt__(self, other):
             if not isinstance(other, self.__class__):
-                # return NotImplemented
-                return False
+                return NotImplemented
             return self.price < other.price
 
     item_1 = Item("Item 1", 2)
