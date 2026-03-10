@@ -377,3 +377,37 @@ def test_magic_lt():
         ic(item_1 < 3)
     except Exception as e:
         ic(e)
+
+
+def test_property():
+    """
+    1.5 Свойства (@property): элегантная инкапсуляция
+
+    Задача 1: Простой @property (Только для чтения)
+
+    Условие:
+    - Ваша задача — превратить метод-геттер в атрибут "только для чтения" с помощью декоратора @property.
+    - Вам нужно:
+        1. Создать класс Circle (Круг).
+        2. В __init__ он должен принимать radius (радиус) и сохранять его в защищенный атрибут self._radius.
+        3. Создать метод area() (площадь), который вычисляет и возвращает площадь круга по формуле π * r². Для π используйте значение 3.14159.
+        4. Превратить метод area в свойство, применив к нему декоратор @property. Это позволит обращаться к нему как к атрибуту (my_circle.area), а не вызывать как метод (my_circle.area()).
+    """
+
+    class Circle:
+        def __init__(self, radius) -> None:
+            self._radius = radius
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @property
+        def area(self):
+            pi = 3.14159
+            return pi * self._radius**2
+
+    circle = Circle(10)
+    ic(circle)
+
+    ic(circle.area)
