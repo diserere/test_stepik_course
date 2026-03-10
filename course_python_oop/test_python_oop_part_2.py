@@ -327,3 +327,56 @@ def test_magic_getitem():
         ic(grades["science"])
     except Exception as e:
         ic(e)
+
+
+def test_magic_lt():
+    """
+    1.4 Перегрузка операторов
+
+    Задача 5: Сортировка объектов (__lt__)
+
+    Условие:
+    - Научите объекты класса Item (Предмет) быть сортируемыми. Встроенная функция sorted() сможет работать с вашими объектами, если вы объясните ей, какой из двух объектов считать "меньше".
+    - Вам нужно:
+        1. Создать класс Item.
+        2. В методе __init__ он должен принимать name и price.
+        3. Реализовать метод __lt__(self, other). lt означает "less than" (меньше чем). Метод будет вызываться при сравнении item1 < item2. Он должен:
+            - Принимать другой объект Item в качестве other.
+            - Возвращать True, если цена self.price строго меньше цены other.price.
+            - Возвращать False во всех остальных случаях.
+        4. Реализовать метод __repr__(self). Для корректной работы тестов и наглядного вывода он должен возвращать строку в формате Item('[name]', [price]), например: Item('Телефон', 50000).
+    """
+
+    class Item:
+        def __init__(self, name: str, price: float) -> None:
+            self.name = name
+            self.price = price
+
+        def __repr__(self):
+            # variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            # return f"{type(self).__name__}({', '.join(variables)})"
+            return f"{type(self).__name__}({self.name!r}, {self.price!r})"
+
+        def __lt__(self, other):
+            if not isinstance(other, self.__class__):
+                # return NotImplemented
+                return False
+            return self.price < other.price
+
+    item_1 = Item("Item 1", 2)
+    item_2 = Item("Item 2", 2)
+    item_3 = Item("Item 3", 3)
+    item_4 = Item("Item 4", 1)
+
+    ic(item_1)
+    ic(item_2)
+    ic(item_3)
+    ic(item_4)
+
+    ic(item_1 < item_2)
+    ic(item_1 < item_3)
+    ic(item_1 < item_4)
+    try:
+        ic(item_1 < 3)
+    except Exception as e:
+        ic(e)
