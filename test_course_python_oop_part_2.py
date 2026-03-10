@@ -11,8 +11,7 @@ def test_magic_str():
         Создайте класс Book.
         1. В __init__ он должен принимать title и author.
         2. Реализуйте метод __str__ так, чтобы он возвращал строку в формате: "[title]" автора [author].
-
-"""
+    """
 
     class Book:
         def __init__(self, title, author):
@@ -39,6 +38,7 @@ def test_magic_repr():
         1. В __init__ он должен принимать x и y.
         2. Реализуйте метод __repr__ так, чтобы он возвращал строку, имитирующую вызов конструктора, например: Point(x=10, y=20).
     """
+
     class Point:
         def __init__(self, x, y):
             self.x = x
