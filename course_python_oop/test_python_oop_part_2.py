@@ -198,3 +198,52 @@ def test_add_vectors():
             ic(fake_vector)
         except Exception as e:
             ic(e)
+
+
+def test_eq_objects():
+    """
+    1.4 Перегрузка операторов
+
+    Задача 2: Сравнение объектов (__eq__)
+
+    Условие:
+    - По умолчанию объекты сравниваются по их адресу в памяти. Ваша задача — научить объекты класса Person правильно сравниваться на равенство (==) по их содержимому.
+    - Вам нужно:
+        1. Создать класс Person.
+        2. В методе __init__ он должен принимать два аргумента, name и age, и сохранять их в одноименные атрибуты.
+        3. Реализовать метод __eq__(self, other). Этот метод будет вызываться при сравнении (p1 == p2). Он должен:
+            - Принимать другой объект в качестве аргумента other.
+            - Возвращать True, если у self и other совпадают и name, и age.
+            - Возвращать False во всех остальных случаях (если other не является объектом Person или если атрибуты не совпадают).
+            - Подсказка: Перед сравнением атрибутов убедитесь, что other является экземпляром класса Person с помощью isinstance().
+    """
+
+    class Person:
+        def __init__(self, name: str, age: int) -> None:
+            self.name = name
+            self.age = age
+
+        def __eq__(self, other) -> bool:
+            if not isinstance(other, self.__class__):
+                return NotImplemented
+            return self.age == other.age and self.name == other.name
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    person_1 = Person("Alice", 21)
+    person_2 = Person("Alice", 21)
+    person_3 = Person("Bob", 21)
+    person_4 = Person("Alice", 22)
+
+    ic(
+        person_1,
+        person_2,
+        person_3,
+        person_4,
+    )
+
+    ic(person_1 == person_2)
+    ic(person_1 == person_3)
+    ic(person_1 == person_4)
