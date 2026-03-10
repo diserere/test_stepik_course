@@ -472,6 +472,7 @@ def test_property_setter():
     finally:
         ic(t.celsius)
 
+
 def test_calculated_property():
     """
     1.5 Свойства (@property): элегантная инкапсуляция
@@ -487,6 +488,7 @@ def test_calculated_property():
                 - Не хранит значение в отдельном атрибуте.
                 - При каждом обращении вычисляет и возвращает произведение self.width * self.height.
     """
+
     class Rectangle:
         def __init__(self, width: float, height: float) -> None:
             self.width = width
@@ -503,8 +505,13 @@ def test_calculated_property():
     rectangle = Rectangle(3.5, 4)
     ic(rectangle)
     ic(rectangle.area)
+
+    rectangle.width = 5
+    ic(rectangle)
+    ic(rectangle.area)
+
     try:
-        rectangle.area = 100500 # pyright: ignore[reportAttributeAccessIssue]
+        rectangle.area = 100500  # pyright: ignore[reportAttributeAccessIssue]
     except Exception as e:
         ic(e)
     finally:
