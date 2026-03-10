@@ -445,10 +445,7 @@ def test_property_setter():
 
         @celsius.setter
         def celsius(self, new_celsius: float):
-            if (
-                isinstance(new_celsius, (int, float))
-                and new_celsius >= self.ABSOLUTE_ZERO
-            ):
+            if isinstance(new_celsius, (int, float)) and new_celsius >= self.ABSOLUTE_ZERO:
                 self._celsius = new_celsius
             # else:
             #     raise ValueError(
@@ -578,3 +575,106 @@ def test_setter_with_type_conversion():
         ic(e)
     finally:
         ic(config.port)
+
+
+def test_linked_properties():
+    """
+    1.5 Свойства (@property): элегантная инкапсуляция
+
+    Задача 5: Полный цикл: два связанных свойства
+
+    Описание:
+    - Вам нужно реализовать класс Converter, который хранит расстояние. Особенность класса в том, что он позволяет работать с одной и той же дистанцией как в метрах, так и в километрах. Изменение одной величины должно автоматически обновлять другую.
+
+    Технические требования:
+    1. Класс Converter:
+        - При создании экземпляра класса (в методе __init__) не нужно принимать никаких аргументов.
+        - Внутри __init__ создайте защищенный атрибут self._meters и установите его значение равным 0. Это будет наше основное хранилище данных.
+    2. Свойство meters:
+        - Геттер (@property): Возвращает текущее значение self._meters.
+        - Сеттер (@meters.setter): Принимает новое значение и записывает его напрямую в self._meters.
+    3. Свойство kilometers:
+        - Геттер (@property): Не хранит отдельное значение! Он должен взять текущее значение self._meters, перевести его в километры (разделить на 1000) и вернуть результат.
+        - Сеттер (@kilometers.setter): Принимает значение в километрах. Метод должен перевести полученные километры в метры (умножить на 1000) и сохранить результат в общий атрибут self._meters.
+
+    Суть задачи:
+    - У вас есть только одна переменная (_meters), но два способа доступа к ней. Свойство kilometers работает как "умная обертка" над метрами.
+    """
+
+    class Converter:
+        M_PER_KM = 1000
+
+        def __init__(self) -> None:
+            self._meters: float = 0
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @property
+        def meters(self):
+            return self._meters
+
+        @meters.setter
+        def meters(self, new_value):
+            try:
+                value = float(new_value)
+            except Exception:
+                pass
+            else:
+                self._meters = value
+
+        @property
+        def kilometers(self):
+            return self._meters / self.M_PER_KM
+
+        @kilometers.setter
+        def kilometers(self, new_value):
+            try:
+                value = float(new_value)
+            except Exception:
+                pass
+            else:
+                self._meters = value * self.M_PER_KM
+
+    print("Create converter")
+    c = Converter()
+    ic(c)
+    ic(c.meters)
+    ic(c.kilometers)
+
+    print("Test set meters: 12.34")
+    c.meters = 12.34
+    ic(c)
+    ic(c.meters)
+    ic(c.kilometers)
+
+    print("Test set meters: str('111')")
+    c.meters = "111"
+    ic(c)
+    ic(c.meters)
+    ic(c.kilometers)
+
+    print("Test set kilometers: 56.789")
+    c.kilometers = 56.789
+    ic(c)
+    ic(c.meters)
+    ic(c.kilometers)
+
+    print("Test set kilometers: str('222')")
+    c.kilometers = "222"
+    ic(c)
+    ic(c.meters)
+    ic(c.kilometers)
+
+    print("Reset meters to 100")
+    c.meters = 100
+    ic(c)
+
+    print("Test set meters (negative): str('asd333')")
+    c.meters = "asd333"
+    ic(c)
+
+    print("Test set kilometers (negative): str('444cde')")
+    c.kilometers = "444cde"
+    ic(c)
