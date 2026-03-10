@@ -77,3 +77,33 @@ def test_repr_as_str_replace():
 
     ic(player)
     print(player)
+
+
+def test_magic_repr_and_str():
+    """
+    1.3 Строковое представление: __str__ и __repr__.
+
+    Задача 4: Оба метода в одном классе
+
+    Условие:
+        Создайте класс Order (Заказ):
+        1. В __init__ он принимает order_id и amount.
+        2. Метод __str__ должен возвращать простую строку: "Заказ №[order_id]".
+        3. Метод __repr__ должен возвращать техническую строку: "Order(order_id=[order_id], amount=[amount])".
+    """
+
+    class Order:
+        def __init__(self, order_id: int, amount: float):
+            self.order_id = order_id
+            self.amount = amount
+
+        def __str__(self) -> str:
+            return f"Заказ №{self.order_id!r}"
+
+        def __repr__(self) -> str:
+            return f"{self.__class__.__name__}(order_id={self.order_id!r}, amount={self.amount!r})"
+
+    order = Order(1, 42)
+
+    ic(order)
+    print(order)
