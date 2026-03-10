@@ -471,3 +471,41 @@ def test_property_setter():
         ic(e)
     finally:
         ic(t.celsius)
+
+def test_calculated_property():
+    """
+    1.5 Свойства (@property): элегантная инкапсуляция
+
+    Задача 3: Вычисляемое свойство
+
+    Условие:
+        - Свойства могут не только возвращать сохраненные значения, но и вычислять их "на лету".
+        - Вам нужно:
+            1. Создать класс Rectangle (Прямоугольник).
+            2. В __init__ он должен принимать width (ширина) и height (высота) и сохранять их в одноименные публичные атрибуты.
+            3. Создать свойство только для чтения area (площадь), которое:
+                - Не хранит значение в отдельном атрибуте.
+                - При каждом обращении вычисляет и возвращает произведение self.width * self.height.
+    """
+    class Rectangle:
+        def __init__(self, width: float, height: float) -> None:
+            self.width = width
+            self.height = height
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @property
+        def area(self):
+            return self.width * self.height
+
+    rectangle = Rectangle(3.5, 4)
+    ic(rectangle)
+    ic(rectangle.area)
+    try:
+        rectangle.area = 100500 # pyright: ignore[reportAttributeAccessIssue]
+    except Exception as e:
+        ic(e)
+    finally:
+        ic(rectangle.area)
