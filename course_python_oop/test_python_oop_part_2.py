@@ -395,6 +395,8 @@ def test_property():
     """
 
     class Circle:
+        PI = 3.14159
+
         def __init__(self, radius) -> None:
             self._radius = radius
 
@@ -404,8 +406,7 @@ def test_property():
 
         @property
         def area(self):
-            pi = 3.14159
-            return pi * self._radius**2
+            return self.PI * self._radius**2
 
     circle = Circle(10)
     ic(circle)
