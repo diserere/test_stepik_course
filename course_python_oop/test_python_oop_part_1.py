@@ -342,7 +342,7 @@ def test_game_characters():
     # Маг атакует камень
     mage.attack(stone)
     print("--", mage.get_status())  # Маг должен получить -t0 маны
-    print("--", stone.get_status()) 
+    print("--", stone.get_status())
 
     # Проверка логики мага
     # mage.mana = 5 # Устанавливаем мало маны
@@ -351,7 +351,6 @@ def test_game_characters():
     mage.set_mana(small_mana)  # Устанавливаем мало маны
     mage.attack(warrior)
     print("--", warrior.get_status())  # Здоровье воина не должно измениться
-
 
     print()
     print("*" * 20)
