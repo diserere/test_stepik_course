@@ -2,29 +2,32 @@ name: Python tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ] # Добавили master
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ] # Добавили master
 
 jobs:
   build:
-    runs-on: ubuntu-latest # The operating system to run the job on
+    runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.12"] # Test across different Python versions
+        python-version: ["3.10", "3.12"]
 
     steps:
-    - uses: actions/checkout@v4 # Step 1: Check out the repository code
+    - uses: actions/checkout@v4
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: 'pip' # <--- ВКЛЮЧАЕТ КЭШИРОВАНИЕ (ищет requirements.txt автоматически)
+
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip # Upgrade pip
-        # Install testing libraries (e.g., pytest) and project dependencies
-        pip install pytest pytest-cov # Example for pytest and coverage
+        python -m pip install --upgrade pip
+        pip install pytest pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
     - name: Run tests
       run: |
-        pytest -vs course_python_oop/ # Command to run the tests
+        pytest -vs course_python_oop/
