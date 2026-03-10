@@ -391,6 +391,7 @@ def test_game_characters():
             break
 
         print()
-        sleep(1)
+        # sleep(1)
+        sleep(0.1)
         round_pair = round_pair[::-1]
         round += 1
