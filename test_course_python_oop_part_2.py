@@ -136,6 +136,10 @@ def test_str_with_formatting():
         def __str__(self) -> str:
             return f"Транзакция на сумму {self.amount:.2f} {self.currency}"
 
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
     t_1 = Transaction(100, "USD")
     ic(t_1)
     print(t_1)
@@ -143,3 +147,6 @@ def test_str_with_formatting():
     t_2 = Transaction(0.123, "BTC")
     ic(t_2)
     print(t_2)
+
+
+# def 
