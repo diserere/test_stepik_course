@@ -127,6 +127,7 @@ def test_str_with_formatting():
         - Формат строки должен быть строго следующим: "Транзакция на сумму <сумма> <валюта>".
         - Важное условие форматирования: Сумма (amount) всегда должна отображаться с двумя знаками после запятой, даже если изначально она была целым числом.
     """
+
     class Transaction:
         def __init__(self, amount: float, currency: str):
             self.amount = amount
@@ -134,7 +135,7 @@ def test_str_with_formatting():
 
         def __str__(self) -> str:
             return f"Транзакция на сумму {self.amount:.2f} {self.currency}"
-    
+
     t_1 = Transaction(100, "USD")
     ic(t_1)
     print(t_1)
