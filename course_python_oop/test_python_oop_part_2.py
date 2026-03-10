@@ -445,7 +445,10 @@ def test_property_setter():
 
         @celsius.setter
         def celsius(self, new_celsius: float):
-            if isinstance(new_celsius, (int, float)) and new_celsius >= self.ABSOLUTE_ZERO:
+            if (
+                isinstance(new_celsius, (int, float))
+                and new_celsius >= self.ABSOLUTE_ZERO
+            ):
                 self._celsius = new_celsius
             # else:
             #     raise ValueError(
@@ -516,3 +519,62 @@ def test_calculated_property():
         ic(e)
     finally:
         ic(rectangle.area)
+
+
+def test_setter_with_type_conversion():
+    """
+    1.5 Свойства (@property): элегантная инкапсуляция
+
+    Задача 4: Сеттер с преобразованием типа
+
+    Условие:
+    - Сеттер может не только проверять, но и преобразовывать данные перед сохранением.
+    - Вам нужно:
+        1. Создать класс Config.
+        2. В __init__ создать защищенный атрибут self._port со значением 80.
+        3. Создать свойство port для доступа к self._port:
+            - Геттер должен возвращать self._port.
+            - Сеттер должен принимать new_port. Перед сохранением он должен всегда преобразовывать new_port в целое число (int). Если преобразование невозможно (например, передали строку "abc"), он должен игнорировать изменение.
+    """
+
+    class Config:
+        def __init__(self) -> None:
+            self._port: int = 80
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @property
+        def port(self):
+            return self._port
+
+        @port.setter
+        def port(self, new_port):
+            try:
+                port = int(new_port)
+            except Exception:
+                pass
+            else:
+                self._port = port
+
+    config = Config()
+    ic(config)
+    ic(config.port)
+
+    config.port = 443.5
+    ic(config.port)
+
+    try:
+        config.port = "22"
+    except Exception as e:
+        ic(e)
+    finally:
+        ic(config.port)
+
+    try:
+        config.port = "8080abc"
+    except Exception as e:
+        ic(e)
+    finally:
+        ic(config.port)
