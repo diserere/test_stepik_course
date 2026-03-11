@@ -1,3 +1,5 @@
+"""1.6 __slots__: Оптимизация памяти и производительности"""
+
 from icecream import ic
 
 
@@ -170,3 +172,46 @@ def test_extend_slots_on_inheritance():
     ic(player.x)
     ic(player.y)
     ic(player.nickname)
+
+
+def test_slots_and_dict():
+    """
+    1.6 __slots__: Оптимизация памяти и производительности
+
+    Задача 5: __slots__ и __dict__ вместе
+
+    Условие:
+    - Иногда требуется компромисс: оптимизировать хранение известных атрибутов через __slots__, но сохранить возможность добавлять новые, динамические атрибуты. Этого можно достичь, добавив строку '__dict__' в сам __slots__.
+
+    Вам нужно:
+    1. Создать класс FlexibleObject.
+    2. На уровне класса определить __slots__, который содержит два элемента:
+        - Строку с именем основного, "слотового" атрибута: 'fixed_attribute'.
+        - Специальную строку '__dict__', которая разрешает создание словаря __dict__ для хранения всех остальных атрибутов.
+    3. В __init__ принимать value и устанавливать self.fixed_attribute = value.
+
+    Шаблон кода проверит, что у объекта есть и fixed_attribute, и __dict__, и что в этот __dict__ можно добавлять новые атрибуты.
+    """
+
+    class FlexibleObject:
+        __slots__ = ("fixed_attribute", "__dict__")
+
+        def __init__(self, value: str) -> None:
+            self.fixed_attribute = value
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    f = FlexibleObject("value")
+    ic(f)
+    ic(f.fixed_attribute)
+    ic(f.__slots__)
+    ic(f.__dict__)
+
+    ic("Add new_attribute")
+    f.new_attribute = "new"  # pyright: ignore[reportAttributeAccessIssue]
+    ic(f)
+    ic(f.new_attribute)  # pyright: ignore[reportAttributeAccessIssue]
+    ic(f.__slots__)
+    ic(f.__dict__)
