@@ -134,6 +134,39 @@ def test_get_class_attributes():
     ic(car_2.get_total_cars())
 
 
+def test_classmethods_inheritance():
+    """
+    Задача 5: @classmethod в иерархии
+    """
+
+    class Website:
+        def __init__(self) -> None:
+            pass
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @classmethod
+        def get_description(cls):
+            return "Это общий сайт."
+
+    class Shop(Website):
+        @classmethod
+        def get_description(cls):
+            return "Это интернет-магазин."
+
+    ic(Website.get_description())
+    website = Website()
+    ic(website)
+    ic(website.get_description())
+
+    ic(Shop.get_description())
+    shop = Shop()
+    ic(shop)
+    ic(shop.get_description())
+
+
 def test_():
     """
     docstring.
