@@ -27,6 +27,38 @@ def test_simple_classmethod():
     ic(char_default)
 
 
+def test_create_from_string():
+    """
+    Задача 2: Создание из строки (from_string)
+    """
+
+    class User:
+        def __init__(self, username: str, email: str) -> None:
+            self.username = username
+            self.email = email
+            pass
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @classmethod
+        def from_string(cls, user_data_string: str):
+            username, email = user_data_string.split(",")
+            return cls(username, email)
+
+    user_frodo = User("Frodo", "frodo@sheer.com")
+    ic(user_frodo)
+    user_sam = User.from_string("Sam,sam@sheer.com")
+    ic(user_sam)
+    ic('Try: user_gollum = User.from_string("Gollum from bad places")')
+    try:
+        user_gollum = User.from_string("Gollum from bad places")
+        ic(user_gollum)
+    except Exception as e:
+        ic(e)
+
+
 def test_():
     """
     docstring.
