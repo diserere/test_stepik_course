@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# cd ./oop_python_part_2/
+
+# Создание структуры разделов и файлов глав
+mkdir -p s_1_magic_methods_and_properties
+touch s_1_magic_methods_and_properties/test_ch_1_3_str_repr.py
+touch s_1_magic_methods_and_properties/test_ch_1_4_operator_overloading.py
+touch s_1_magic_methods_and_properties/test_ch_1_5_properties.py
+touch s_1_magic_methods_and_properties/test_ch_1_6_slots.py
+
+mkdir -p s_2_advanced_methods
+touch s_2_advanced_methods/test_ch_2_1_classmethods.py
+touch s_2_advanced_methods/test_ch_2_2_staticmethods.py
+
+mkdir -p s_3_architecture_and_relations
+touch s_3_architecture_and_relations/test_ch_3_1_composition.py
+touch s_3_architecture_and_relations/test_ch_3_2_multiple_inheritance_mixins.py
+
+mkdir -p s_4_modern_oop_tools
+touch s_4_modern_oop_tools/test_ch_4_1_abc.py
+touch s_4_modern_oop_tools/test_ch_4_2_dataclasses.py
+touch s_4_modern_oop_tools/test_ch_4_3_descriptors.py
+
+mkdir -p s_5_final_project_and_conclusion
+touch s_5_final_project_and_conclusion/test_ch_5_1_custom_exceptions.py
+touch s_5_final_project_and_conclusion/test_ch_5_2_final_tasks.py
+
+echo "Структура проекта успешно создана!"
