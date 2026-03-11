@@ -1,10 +1,9 @@
+"""1.5 Свойства (@property): элегантная инкапсуляция"""
 from icecream import ic
 
 
 def test_property():
     """
-    1.5 Свойства (@property): элегантная инкапсуляция
-
     Задача 1: Простой @property (Только для чтения)
 
     Условие:
@@ -37,8 +36,6 @@ def test_property():
 
 def test_property_setter():
     """
-    1.5 Свойства (@property): элегантная инкапсуляция
-
     Задача 2: @property и @*.setter
 
     Условие:
@@ -97,8 +94,6 @@ def test_property_setter():
 
 def test_calculated_property():
     """
-    1.5 Свойства (@property): элегантная инкапсуляция
-
     Задача 3: Вычисляемое свойство
 
     Условие:
@@ -142,8 +137,6 @@ def test_calculated_property():
 
 def test_setter_with_type_conversion():
     """
-    1.5 Свойства (@property): элегантная инкапсуляция
-
     Задача 4: Сеттер с преобразованием типа
 
     Условие:
@@ -201,8 +194,6 @@ def test_setter_with_type_conversion():
 
 def test_linked_properties():
     """
-    1.5 Свойства (@property): элегантная инкапсуляция
-
     Задача 5: Полный цикл: два связанных свойства
 
     Описание:

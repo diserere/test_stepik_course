@@ -1,10 +1,10 @@
+"""1.3 Строковое представление: __str__ и __repr__."""
+
 from icecream import ic
 
 
 def test_magic_str():
     """
-    1.3 Строковое представление: __str__ и __repr__.
-
     Задача 1: Реализация __str__
 
     Условие:
@@ -29,8 +29,6 @@ def test_magic_str():
 
 def test_magic_repr():
     """
-    1.3 Строковое представление: __str__ и __repr__.
-
     Задача 2: Реализация __repr__
 
     Условие:
@@ -55,8 +53,6 @@ def test_magic_repr():
 
 def test_repr_as_str_replace():
     """
-    1.3 Строковое представление: __str__ и __repr__.
-
     Задача 3: __repr__ как замена __str__
 
     Условие:
@@ -81,8 +77,6 @@ def test_repr_as_str_replace():
 
 def test_magic_repr_and_str():
     """
-    1.3 Строковое представление: __str__ и __repr__.
-
     Задача 4: Оба метода в одном классе
 
     Условие:
@@ -111,8 +105,6 @@ def test_magic_repr_and_str():
 
 def test_str_with_formatting():
     """
-    1.3 Строковое представление: __str__ и __repr__.
-
     Задача 5: __str__ с форматированием
 
     Условие:
