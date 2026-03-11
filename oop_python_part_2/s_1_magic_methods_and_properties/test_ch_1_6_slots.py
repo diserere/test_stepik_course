@@ -5,8 +5,6 @@ from icecream import ic
 
 def test_slots():
     """
-    1.6 __slots__: Оптимизация памяти и производительности
-
     Задача 1: Простейшее использование __slots__
 
     Условие:
@@ -45,8 +43,6 @@ def test_slots():
 
 def test_fixed_attributes_list():
     """
-    1.6 __slots__: Оптимизация памяти и производительности
-
     Задача 2: Фиксированный набор атрибутов
 
     Условие:
@@ -83,8 +79,6 @@ def test_fixed_attributes_list():
 
 def test_slots_inheritance():
     """
-    1.6 __slots__: Оптимизация памяти и производительности
-
     Задача 3: Наследование и __slots__
 
     Условие:
@@ -133,8 +127,6 @@ def test_slots_inheritance():
 
 def test_extend_slots_on_inheritance():
     """
-    1.6 __slots__: Оптимизация памяти и производительности
-
     Задача 4: Расширение __slots__ при наследовании
 
     Условие:
@@ -176,8 +168,6 @@ def test_extend_slots_on_inheritance():
 
 def test_slots_and_dict():
     """
-    1.6 __slots__: Оптимизация памяти и производительности
-
     Задача 5: __slots__ и __dict__ вместе
 
     Условие:
