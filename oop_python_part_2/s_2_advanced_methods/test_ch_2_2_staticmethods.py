@@ -16,8 +16,8 @@ def test_staticmethod_format_email():
 
     ic(Formatter.format_email("   My_EMAil@dot.coM"))
     ic(Formatter.format_email("   My_EMAil@DOT.coM   "))
-    ic(Formatter.format_email("   My_EMAil @ DOT.coM   "))
     ic(Formatter.format_email("   \nMy_EMAil@dot.coM"))
+    ic(Formatter.format_email("   My_EMAil @ DOT.coM   "))
     ic(Formatter.format_email("   \nMy_EMAil DOT.coM   "))
     ic(Formatter.format_email(["my_email@dot.com"]))  # pyright: ignore[reportArgumentType]
     ic(Formatter.format_email(123))  # pyright: ignore[reportArgumentType]
@@ -43,6 +43,7 @@ def test_staticmethod_library():
     ic(Validator.is_positive(0.1))
     ic(Validator.is_positive(1))
     ic(Validator.is_positive("1"))  # pyright: ignore[reportArgumentType]
+
     ic(Validator.is_even(-2))
     ic(Validator.is_even(-1))
     ic(Validator.is_even(-0.2))  # pyright: ignore[reportArgumentType]
@@ -157,8 +158,50 @@ def test_different_methods():
     ic(counter_2.get_description())
 
 
-def test_():
+def test_dateconverter():
     """
-    docstring.
+    Задача 5: Практический пример: DateConverter
     """
-    pass
+
+    class DateConverter:
+        """Класс-библиотека для работы с датами."""
+
+        DELIM_EUR = "."
+        DELIM_ISO = "-"
+
+        @staticmethod
+        def to_iso_format(date_string: str):
+            """Принимает дату в формате "ДД.ММ.ГГГГ" и возвращает ее в формате ISO "ГГГГ-ММ-ДД"."""
+            if isinstance(date_string, str):
+                dd, mm, yyyy = date_string.split(__class__.DELIM_EUR)
+                return __class__.DELIM_ISO.join((yyyy.strip(), mm.strip(), dd.strip()))
+
+        @staticmethod
+        def from_iso_format(date_string: str):
+            """Принимает дату в формате ISO "ГГГГ-ММ-ДД" и возвращает ее в формате "ДД.ММ.ГГГГ"."""
+            if isinstance(date_string, str):
+                yyyy, mm, dd = date_string.split(__class__.DELIM_ISO)
+                return __class__.DELIM_EUR.join((dd.strip(), mm.strip(), yyyy.strip()))
+
+    ic(DateConverter.to_iso_format("16.04.1986"))
+    ic(DateConverter.from_iso_format(DateConverter.to_iso_format("16.04.1986")))
+
+    ic(DateConverter.to_iso_format(" 16 .\t 04 . 1986 \n"))
+    ic(DateConverter.from_iso_format("\f 2011- 03 \v- 11    \n\r"))
+    ic('try: ic(DateConverter.to_iso_format("24.02-2022"))')
+    try:
+        ic(DateConverter.to_iso_format("24.02-2022"))
+    except Exception as e:
+        ic(e)
+
+    ic('try: ic(DateConverter.from_iso_format("2022 02 24"))')
+    try:
+        ic(DateConverter.from_iso_format("2022 02 24"))
+    except Exception as e:
+        ic(e)
+
+    ic('try: ic(DateConverter.to_iso_format("24.02..2022"))')
+    try:
+        ic(DateConverter.to_iso_format("24.02..2022"))
+    except Exception as e:
+        ic(e)
