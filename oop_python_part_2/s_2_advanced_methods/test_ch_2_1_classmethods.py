@@ -157,18 +157,6 @@ def test_classmethods_inheritance():
             return "Это интернет-магазин."
 
     ic(Website.get_description())
-    website = Website()
-    ic(website)
-    ic(website.get_description())
-
+    ic(Website().get_description())
     ic(Shop.get_description())
-    shop = Shop()
-    ic(shop)
-    ic(shop.get_description())
-
-
-def test_():
-    """
-    docstring.
-    """
-    pass
+    ic(Shop().get_description())
