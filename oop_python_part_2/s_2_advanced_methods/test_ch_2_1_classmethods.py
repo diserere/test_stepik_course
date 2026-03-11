@@ -102,6 +102,38 @@ def test_create_from_dict():
         ic(e)
 
 
+def test_get_class_attributes():
+    """
+    Задача 4: @classmethod и атрибуты класса
+    """
+
+    class Car:
+        total_cars = 0
+
+        def __init__(self, brand: str, model: str) -> None:
+            self.brand = brand
+            self.model = model
+            __class__.total_cars += 1
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @classmethod
+        def get_total_cars(cls):
+            return cls.total_cars
+
+    ic(Car.get_total_cars())
+    car_1 = Car("Audi", "X5")
+    ic(car_1)
+    ic(Car.get_total_cars())
+    ic(car_1.get_total_cars())
+    car_2 = Car("Audi", "X5")
+    ic(car_2)
+    ic(Car.get_total_cars())
+    ic(car_2.get_total_cars())
+
+
 def test_():
     """
     docstring.
