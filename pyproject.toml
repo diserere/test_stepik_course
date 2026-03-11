@@ -16,6 +16,6 @@ ignore = ["E501"] # Игнорировать длину строки (если �
 
 [tool.pytest.ini_options]
 # Настройки для pytest, чтобы не писать флаги в консоли
-testpaths = ["course_python_oop"]
+testpaths = ["oop_python_part_1", "oop_python_part_2"]
 python_files = "test_*.py"
-addopts = "-vs"
+addopts = "-vsrA"
