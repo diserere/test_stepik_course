@@ -61,6 +61,47 @@ def test_create_from_string():
         ic(e)
 
 
+def test_create_from_dict():
+    """
+    Задача 3: Создание из словаря (from_dict)
+    """
+
+    class Product:
+        def __init__(self, name: str, price: float) -> None:
+            self.name = name
+            self.price = price
+            pass
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @classmethod
+        def from_dict(cls, product_dict: dict):
+            key_name = "name"
+            key_price = "price"
+            return cls(product_dict[key_name], product_dict[key_price])
+
+    ic('Try: Product("Milk", 0.36)')
+    product_milk = Product("Milk", 0.36)
+    ic(product_milk)
+    ic('Try: Product.from_dict({"name": "Bread", "price": 0.22})')
+    product_bread = Product.from_dict({"name": "Bread", "price": 0.22})
+    ic(product_bread)
+    ic('Try: Product.from_dict({"name": "Oil", "quantity": 1})')
+    try:
+        product_oil = Product.from_dict({"name": "Oil", "quantity": 1})
+        ic(product_oil)
+    except Exception as e:
+        ic(e)
+    ic('Try: Product.from_dict({"name": "Egg", "price": 2.40, "cat": 1})')
+    try:
+        product_egg = Product.from_dict({"name": "Egg", "price": 2.40, "cat": 1})
+        ic(product_egg)
+    except Exception as e:
+        ic(e)
+
+
 def test_():
     """
     docstring.
