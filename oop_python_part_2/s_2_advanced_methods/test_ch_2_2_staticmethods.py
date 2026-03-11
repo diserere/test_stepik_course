@@ -56,6 +56,50 @@ def test_staticmethod_library():
     ic(Validator.is_even("2"))  # pyright: ignore[reportArgumentType]
 
 
+def test_internal_static_method():
+    """
+    Задача 3: Использование статического метода внутри класса
+    """
+
+    class Circle:
+        @staticmethod
+        def _is_valid_radius(radius):
+            return isinstance(radius, (int, float)) and radius >= 0
+
+        def __init__(self, radius) -> None:
+            if self._is_valid_radius(radius):
+                self.radius = radius
+            else:
+                raise ValueError("Некорректный радиус")
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    ic(Circle(10))
+    ic(Circle(1))
+    ic(Circle(0.1))
+    ic(Circle(1e-100))
+
+    ic("Try: ic(Circle(0))")
+    try:
+        ic(Circle(0))
+    except Exception as e:
+        ic(e)
+
+    ic("Try: ic(Circle(-1))")
+    try:
+        ic(Circle(-1))
+    except Exception as e:
+        ic(e)
+
+    ic("Try: ic(Circle('1'))")
+    try:
+        ic(Circle("1"))
+    except Exception as e:
+        ic(e)
+
+
 def test_():
     """
     docstring.
