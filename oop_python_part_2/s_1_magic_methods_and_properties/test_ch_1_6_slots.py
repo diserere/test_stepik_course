@@ -127,3 +127,46 @@ def test_slots_inheritance():
         ic(child.__slots__)
         ic(child.y)  # pyright: ignore[reportAttributeAccessIssue]
         ic(child.__dict__)
+
+
+def test_extend_slots_on_inheritance():
+    """
+    1.6 __slots__: Оптимизация памяти и производительности
+
+    Задача 4: Расширение __slots__ при наследовании
+
+    Условие:
+    - Чтобы сохранить оптимизацию по памяти в дочернем классе, он должен сам определить __slots__. При этом в дочернем __slots__ нужно указывать только новые, добавляемые атрибуты, а не повторять родительские.
+
+    Вам нужно:
+    1. Создать родительский класс GameObject с __slots__ = ('x', 'y') и __init__(self, x, y).
+    2. Создать дочерний класс Player, который наследует от GameObject.
+    3. В классе Player определить свой __slots__, указав в нем только один новый атрибут, который вы хотите добавить: ('nickname',).
+    4. В Player.__init__ принимать x, y и nickname. Внутри конструктора нужно:
+        - Вызвать родительский конструктор с помощью super().__init__(x, y), чтобы установить x и y.
+        - Установить новый атрибут self.nickname = nickname.
+
+    Шаблон кода проверит, что у объекта Player есть все три атрибута (x, y, nickname), но при этом у него нет __dict__.
+    """
+
+    class GameObject:
+        __slots__ = ("x", "y")
+
+        def __init__(self, x: int, y: int):
+            self.x = x
+            self.y = y
+
+    class Player(GameObject):
+        __slots__ = ("nickname",)
+
+        def __init__(self, x: int, y: int, nickname: str):
+            super().__init__(x, y)
+            self.nickname = nickname
+
+    player = Player(1, -1, "Frodo")
+    ic(hasattr(player, "__dict__"))
+    ic(hasattr(player, "__slots__"))
+    ic(player.__slots__)
+    ic(player.x)
+    ic(player.y)
+    ic(player.nickname)
