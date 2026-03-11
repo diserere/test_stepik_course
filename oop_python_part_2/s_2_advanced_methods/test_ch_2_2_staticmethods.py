@@ -62,15 +62,15 @@ def test_internal_static_method():
     """
 
     class Circle:
-        @staticmethod
-        def _is_valid_radius(radius):
-            return isinstance(radius, (int, float)) and radius >= 0
-
         def __init__(self, radius) -> None:
             if self._is_valid_radius(radius):
                 self.radius = radius
             else:
                 raise ValueError("Некорректный радиус")
+
+        @staticmethod
+        def _is_valid_radius(radius):
+            return isinstance(radius, (int, float)) and radius >= 0
 
         def __repr__(self):
             variables = [f"{k}={v!r}" for k, v in vars(self).items()]
