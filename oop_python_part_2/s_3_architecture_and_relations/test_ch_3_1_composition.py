@@ -1,7 +1,29 @@
 """3.1 Композиция вместо наследования"""
-# ruff: noqa: F401
 
 from icecream import ic
+
+
+def test_simple_relation_has_a():
+    """
+    Задача 1: Простое отношение "has-a"
+    """
+
+    class Brain:
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    class Person:
+        def __init__(self, name) -> None:
+            self.name = name
+            self.brain = Brain()
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    person = Person("Pinky")
+    ic(person)
 
 
 def test_():
