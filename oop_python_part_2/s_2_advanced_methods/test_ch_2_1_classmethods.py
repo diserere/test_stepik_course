@@ -47,8 +47,10 @@ def test_create_from_string():
             username, email = user_data_string.split(",")
             return cls(username, email)
 
+    ic('Try: user_frodo = User("Frodo", "frodo@sheer.com")')
     user_frodo = User("Frodo", "frodo@sheer.com")
     ic(user_frodo)
+    ic('Try: user_sam = User.from_string("Sam,sam@sheer.com")')
     user_sam = User.from_string("Sam,sam@sheer.com")
     ic(user_sam)
     ic('Try: user_gollum = User.from_string("Gollum from bad places")')
