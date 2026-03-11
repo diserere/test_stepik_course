@@ -113,7 +113,7 @@ def test_get_class_attributes():
         def __init__(self, brand: str, model: str) -> None:
             self.brand = brand
             self.model = model
-            __class__.total_cars += 1
+            self.__class__.total_cars += 1
 
         def __repr__(self):
             variables = [f"{k}={v!r}" for k, v in vars(self).items()]
@@ -128,7 +128,7 @@ def test_get_class_attributes():
     ic(car_1)
     ic(Car.get_total_cars())
     ic(car_1.get_total_cars())
-    car_2 = Car("Audi", "X5")
+    car_2 = Car("Kia", "Rio")
     ic(car_2)
     ic(Car.get_total_cars())
     ic(car_2.get_total_cars())
