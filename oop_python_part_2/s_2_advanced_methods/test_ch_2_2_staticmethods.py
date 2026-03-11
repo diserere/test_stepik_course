@@ -100,6 +100,63 @@ def test_internal_static_method():
         ic(e)
 
 
+def test_different_methods():
+    """
+    Задача 4: Сравнение всех трех типов методов
+    """
+
+    class Counter:
+        total_count = 0
+
+        def __init__(self) -> None:
+            self.instance_count = 0
+            __class__.total_count += 1
+
+        def increment(self):
+            self.instance_count += 1
+
+        @classmethod
+        def get_total_count(cls):
+            return cls.total_count
+
+        @staticmethod
+        def get_description():
+            return "Это класс для подсчета."
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    ic(Counter.total_count)
+    ic(Counter.get_total_count())
+
+    ic("Try: counter_1 = Counter()")
+    counter_1 = Counter()
+    ic(counter_1)
+    ic(counter_1.total_count)
+    ic(counter_1.get_total_count())
+    ic(counter_1.increment())
+    ic(counter_1)
+
+    ic(Counter.get_total_count())
+    ic(Counter.total_count)
+
+    ic("Try: counter_2 = Counter()")
+    counter_2 = Counter()
+    ic(counter_2)
+    ic(counter_2.total_count)
+    ic(counter_2.get_total_count())
+    ic(counter_2.increment())
+    ic(counter_2)
+
+    ic(Counter.get_total_count())
+    ic(Counter.total_count)
+
+    ic(Counter.get_description())
+    ic(counter_1.get_description())
+    ic(counter_2.get_description())
+
+
 def test_():
     """
     docstring.
