@@ -179,9 +179,9 @@ def test_flexible_composition():
         def start_car(self):
             return self.engine.start()
 
-    pc = Car("Audi", PetrolEngine())
-    ic(pc)
-    ic(pc.start_car())
-    ec = Car("Xiaomi", ElectricEngine())
-    ic(ec)
-    ic(ec.start_car())
+    petrol_car = Car("Audi", PetrolEngine())
+    ic(petrol_car)
+    ic(petrol_car.start_car())
+    electric_car = Car("Xiaomi", ElectricEngine())
+    ic(electric_car)
+    ic(electric_car.start_car())
