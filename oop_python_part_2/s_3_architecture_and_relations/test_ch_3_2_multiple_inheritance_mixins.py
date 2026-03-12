@@ -42,7 +42,7 @@ def test_inheritance_order():
 
     class Boombox(Radio, Speaker):
         def __repr__(self):
-            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
             return f"{type(self).__name__}({', '.join(variables)})"
 
     boombox = Boombox()
@@ -81,6 +81,31 @@ def test_rombic_inheritance():
     ic(Right.__mro__)
     ic(Child().get_info())
     ic(Child.__mro__)
+
+
+def test_simple_mixin():
+    """
+    Задача 4: Простой Миксин (ReprMixin)
+    """
+
+    class ReprMixin:
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items() if not k.startswith("_")]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    class SomeClass:
+        def __init__(self, name: str, age: int):
+            self.name = name
+            self.age = age
+            self._private_attr = "Private"
+            self.__protected_attr = "Secret"
+
+    class PrettyClass(SomeClass, ReprMixin): ...
+
+    ic('pretty_obj = PrettyClass("Pretty", 13)')
+    pretty_obj = PrettyClass("Pretty", 13)
+    ic(pretty_obj.__dict__)
+    ic(pretty_obj)
 
 
 def test_():
