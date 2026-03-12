@@ -51,9 +51,9 @@ def test_call_delegation():
         def run(self):
             return self.cpu.calculate()
 
-    c = Computer()
-    ic(c)
-    ic(c.run())
+    computer = Computer()
+    ic(computer)
+    ic(computer.run())
 
 
 def test_():
