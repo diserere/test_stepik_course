@@ -1,7 +1,6 @@
 """3.1 Композиция вместо наследования"""
 
 from icecream import ic
-from time import sleep
 
 
 def test_simple_relation_has_a():
@@ -92,7 +91,6 @@ def test_multiple_composition():
         def drive(self):
             return f"{self.engine.start()} и {self.wheels.rotate()}"
 
-
     car = Car()
     ic(car)
     ic(car.engine)
@@ -100,8 +98,6 @@ def test_multiple_composition():
     ic(car.wheels)
     ic(car.wheels.rotate())
     ic(car.drive())
-
-
 
 
 def test_():
