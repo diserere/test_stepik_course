@@ -198,44 +198,44 @@ def test_linked_properties():
             else:
                 self._meters = value * self.M_PER_KM
 
-    print("Create converter")
+    ic("Create converter:")
     c = Converter()
     ic(c)
     ic(c.meters)
     ic(c.kilometers)
 
-    print("Test set meters: 12.34")
+    ic("Test set meters: 12.34")
     c.meters = 12.34
     ic(c)
     ic(c.meters)
     ic(c.kilometers)
 
-    print("Test set meters: str('111')")
+    ic("Test set meters: str('111')")
     c.meters = "111"
     ic(c)
     ic(c.meters)
     ic(c.kilometers)
 
-    print("Test set kilometers: 56.789")
+    ic("Test set kilometers: 56.789")
     c.kilometers = 56.789
     ic(c)
     ic(c.meters)
     ic(c.kilometers)
 
-    print("Test set kilometers: str('222')")
+    ic("Test set kilometers: str('222')")
     c.kilometers = "222"
     ic(c)
     ic(c.meters)
     ic(c.kilometers)
 
-    print("Reset meters to 100")
+    ic("Reset meters to 100")
     c.meters = 100
     ic(c)
 
-    print("Test set meters (negative): str('asd333')")
+    ic("Test set meters (negative): str('asd333')")
     c.meters = "asd333"
     ic(c)
 
-    print("Test set kilometers (negative): str('444cde')")
+    ic("Test set kilometers (negative): str('444cde')")
     c.kilometers = "444cde"
     ic(c)
