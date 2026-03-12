@@ -51,6 +51,38 @@ def test_inheritance_order():
     ic(boombox.__class__.__mro__)
 
 
+def test_rombic_inheritance():
+    """
+    Задача 3: "Проблема ромба" и super()
+    """
+
+    class Base:
+        @staticmethod
+        def get_info():
+            return "Base"
+
+    class Left(Base):
+        def get_info(self):
+            return super().get_info() + "-Left"
+
+    class Right(Base):
+        def get_info(self):
+            return super().get_info() + "-Right"
+
+    class Child(Left, Right):
+        def get_info(self):
+            return super().get_info() + "-Child"
+
+    ic(Base().get_info())
+    ic(Base.__mro__)
+    ic(Left().get_info())
+    ic(Left.__mro__)
+    ic(Right().get_info())
+    ic(Right.__mro__)
+    ic(Child().get_info())
+    ic(Child.__mro__)
+
+
 def test_():
     """
     docstring.
