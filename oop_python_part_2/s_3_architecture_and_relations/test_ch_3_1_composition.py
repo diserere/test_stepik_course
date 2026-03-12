@@ -144,8 +144,44 @@ def test_composition_with_objects_list():
     ic(book.get_table_of_contents())
 
 
-def test_():
+def test_flexible_composition():
     """
-    docstring.
+    Задача 5: Гибкая композиция (Dependency Injection)
     """
-    pass
+
+    class Engine:
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        @staticmethod
+        def start(): ...
+
+    class PetrolEngine(Engine):
+        @staticmethod
+        def start():
+            return "Бензиновый двигатель запущен"
+
+    class ElectricEngine(Engine):
+        @staticmethod
+        def start():
+            return "Электрический двигатель активирован"
+
+    class Car:
+        def __init__(self, model: str, engine: Engine):
+            self.model = model
+            self.engine = engine
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        def start_car(self):
+            return self.engine.start()
+
+    pc = Car("Audi", PetrolEngine())
+    ic(pc)
+    ic(pc.start_car())
+    ec = Car("Xiaomi", ElectricEngine())
+    ic(ec)
+    ic(ec.start_car())
