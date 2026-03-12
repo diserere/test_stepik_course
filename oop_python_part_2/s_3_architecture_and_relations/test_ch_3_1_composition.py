@@ -1,6 +1,7 @@
 """3.1 Композиция вместо наследования"""
 
 from icecream import ic
+from time import sleep
 
 
 def test_simple_relation_has_a():
@@ -54,6 +55,53 @@ def test_call_delegation():
     computer = Computer()
     ic(computer)
     ic(computer.run())
+
+
+def test_multiple_composition():
+    """
+    Задача 3: Композиция из нескольких объектов
+    """
+
+    class Engine:
+        @staticmethod
+        def start():
+            return "Двигатель запущен"
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    class Wheels:
+        @staticmethod
+        def rotate():
+            return "Колеса вращаются"
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    class Car:
+        def __init__(self):
+            self.engine = Engine()
+            self.wheels = Wheels()
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        def drive(self):
+            return f"{self.engine.start()} и {self.wheels.rotate()}"
+
+
+    car = Car()
+    ic(car)
+    ic(car.engine)
+    ic(car.engine.start())
+    ic(car.wheels)
+    ic(car.wheels.rotate())
+    ic(car.drive())
+
+
 
 
 def test_():
