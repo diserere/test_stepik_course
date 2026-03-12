@@ -100,6 +100,50 @@ def test_multiple_composition():
     ic(car.drive())
 
 
+def test_composition_with_objects_list():
+    """
+    Задача 4: Композиция со списком объектов
+    """
+
+    class Chapter:
+        def __init__(self, title: str):
+            self.title = title
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        def get_title(self):
+            return self.title
+
+    class Book:
+        def __init__(self, title: str, chapters: list[str]):
+            self.title = title
+            self.chapters = [Chapter(title) for title in chapters]
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in vars(self).items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+        def get_table_of_contents(self):
+            toc = [self.title]
+            for n, chapter in enumerate(self.chapters, start=1):
+                toc.append(f"Глава {n}: {chapter.get_title()}")
+            return "\n".join(toc)
+
+    book_title = "Хоббит, или туда и обратно"
+    chapter_titles = [
+        "Стук в дверь",
+        "Туда",
+        "Приключения",
+        "Обратно",
+    ]
+
+    book = Book(book_title, chapter_titles)
+    ic(book)
+    ic(book.get_table_of_contents())
+
+
 def test_():
     """
     docstring.
