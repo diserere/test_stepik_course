@@ -126,7 +126,7 @@ def test_practical_mixin():
         def __init__(self, name: str, email: str):
             self.name = name
             self.email = email
-            self._password_hash: str | None = None
+            self._password_hash: str = ""
 
     class SerializableUser(User, ReprMixin, DictMixin): ...
 
