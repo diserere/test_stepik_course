@@ -48,6 +48,34 @@ def test_dataclass_default_values():
     ic(u == User("Mike", False, 2))
 
 
+def test_frozen_dataclass():
+    """
+    Задача 3: "Замороженный" датакласс (frozen=True)
+    """
+
+    @dataclass(frozen=True)
+    class APIConfig:
+        base_url: str
+        api_key: str
+
+    config = APIConfig("https://example.com", "123456")
+    ic(config)
+
+    ic("Try to change base_url")
+    try:
+        config.base_url = "https://sample.org"  # pyright: ignore[reportAttributeAccessIssue]
+        ic(config)
+    except Exception as e:
+        ic(e)
+
+    ic("Try to change api_key")
+    try:
+        config.api_key = "abcdef"  # pyright: ignore[reportAttributeAccessIssue]
+        ic(config)
+    except Exception as e:
+        ic(e)
+
+
 def test_():
     """
     docstring.
