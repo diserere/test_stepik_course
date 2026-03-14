@@ -8,19 +8,6 @@ from icecream import ic
 def test_simple_abc():
     """
     Задача 1: Создание простого абстрактного класса
-    Условие:
-    Ваша задача — создать "интерфейс" или "контракт" для всех геометрических фигур, которые могут иметь площадь.
-
-    Вам нужно:
-
-    Импортировать ABC и abstractmethod из модуля abc.
-
-    Создать абстрактный базовый класс Shape, который наследует от ABC.
-
-    Внутри Shape определить абстрактный метод area(self). Тело метода может быть пустым (pass).
-
-    Шаблон кода проверит, что вы правильно создали класс и что от него нельзя создать экземпляр.
-
     """
 
     class Shape(ABC):
@@ -92,8 +79,51 @@ def test_abc_with_several_methods():
     ic(fs.write(3.14))
 
 
-def test_():
+def test_abc_with_concrete_methods():
     """
-    docstring.
+    Задача 4: Абстрактный класс с конкретными методами
     """
-    pass
+
+    class Instrument(ABC):
+        def __init__(self, brand) -> None:
+            self.brand = brand
+
+        def show_brand(self):
+            return f"Бренд: {self.brand}"
+
+        @abstractmethod
+        def play(): ...
+
+    class Guitar(Instrument):
+        @staticmethod
+        def play():
+            return "Играет мелодия на гитаре"
+
+    guitar = Guitar("Gibson")
+    ic(guitar.show_brand())
+    ic(guitar.play())
+
+
+def test_polymorphic_argument():
+    """
+    Задача 5: Практический пример "Плагины"
+    """
+
+    class Plugin(ABC):
+        @abstractmethod
+        def execute(self, data: str): ...
+
+    class UpperCasePlugin(Plugin):
+        @staticmethod
+        def execute(data: str):
+            return data.upper()
+
+    class LowerCasePlugin(Plugin):
+        @staticmethod
+        def execute(data: str):
+            return data.lower()
+
+    def run_plugins(plugins: list[Plugin], data: str):
+        return [p.execute(data) for p in plugins]
+
+    ic(run_plugins([UpperCasePlugin(), LowerCasePlugin()], "Some 3 Words"))
