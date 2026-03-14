@@ -76,6 +76,27 @@ def test_frozen_dataclass():
         ic(e)
 
 
+def test_sortable_dataclass():
+    """
+    Задача 4: Сортируемый датакласс (order=True)
+    """
+
+    @dataclass(order=True)
+    class Employee:
+        salary: int
+        name: str
+
+    e = Employee(100, "Mike")
+    ic(e)
+    ic(e > Employee(100, "John"))
+    ic(e > Employee(101, "John"))
+
+    ic("__le__" in vars(Employee))
+    ic("__lt__" in vars(Employee))
+    ic("__ge__" in vars(Employee))
+    ic("__gt__" in vars(Employee))
+
+
 def test_():
     """
     docstring.
