@@ -1,4 +1,0 @@
-assertpy
-icecream
-pytest
-ruff==0.15.0
