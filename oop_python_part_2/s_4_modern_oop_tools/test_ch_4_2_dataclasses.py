@@ -26,6 +26,28 @@ def test_simple_dataclass():
     ic(p == Point(1, 1))
 
 
+def test_dataclass_default_values():
+    """
+    Задача 2: Датакласс со значениями по умолчанию
+
+    """
+
+    @dataclass
+    class User:
+        username: str
+        is_active: bool = True
+        level: int = 1
+
+    u = User("Mike")
+    ic(u)
+    u.level += 1
+    u.is_active = False
+    ic(u)
+
+    ic(u == User("Mike"))
+    ic(u == User("Mike", False, 2))
+
+
 def test_():
     """
     docstring.
