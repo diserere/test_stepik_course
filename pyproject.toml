@@ -1,6 +1,7 @@
 [project]
     name = "stepik-python-oop"
     version = "0.0.1"
+    requires-python = ">=3.13"
     dependencies = [
         "assertpy",
         "icecream",
@@ -17,7 +18,7 @@
     # Общие настройки Ruff
     line-length = 120
     # target-version = "py310" # Указывает Ruff, какой синтаксис Python считать допустимым
-    target-version = "py313" # Указывает Ruff, какой синтаксис Python считать допустимым
+    # target-version = "py313" # Указывает Ruff, какой синтаксис Python считать допустимым
 
 [tool.ruff.lint]
     # Какие правила проверять (select) и игнорировать (ignore)
