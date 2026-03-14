@@ -108,8 +108,32 @@ def test_simple_mixin():
     ic(pretty_obj)
 
 
-def test_():
+def test_practical_mixin():
     """
-    docstring.
+    Задача 5: Практический Миксин (DictMixin)
     """
-    pass
+
+    class DictMixin:
+        def to_dict(self):
+            return {k: v for k, v in self.__dict__.items() if not k.startswith("_")}
+
+    class ReprMixin:
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items() if not k.startswith("_")]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    class User:
+        def __init__(self, name: str, email: str):
+            self.name = name
+            self.email = email
+            self._password_hash: str | None = None
+
+    class SerializableUser(User, ReprMixin, DictMixin): ...
+
+    user = SerializableUser("Frodo", "frodo@sheer.uk")
+    ic(user)
+    ic(user.to_dict())
+
+    user_2 = SerializableUser(**user.to_dict())
+    ic(user_2)
+    ic(user_2.to_dict())
