@@ -34,6 +34,35 @@ def test_simple_abc():
         ic(e)
 
 
+def test_implement_abc():
+    """
+    Задача 2: Реализация абстрактного класса
+    """
+
+    class Shape(ABC):
+        @abstractmethod
+        def area(self): ...
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    class Square(Shape):
+        def __init__(self, side: int) -> None:
+            super().__init__()
+            self.side = side
+
+        def area(self):
+            return self.side**2
+
+    try:
+        sqare = Square(2)
+        ic(sqare)
+        ic(sqare.area())
+    except Exception as e:
+        ic(e)
+
+
 def test_():
     """
     docstring.
