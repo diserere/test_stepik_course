@@ -1,6 +1,7 @@
 """4.2 Датаклассы (@dataclass)"""
 
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import List
 
 from icecream import ic
 
@@ -97,8 +98,20 @@ def test_sortable_dataclass():
     ic("__gt__" in vars(Employee))
 
 
-def test_():
+def test_dataclass_mutable_default_field():
     """
-    docstring.
+    Задача 5: Датакласс с изменяемым полем по умолчанию
     """
-    pass
+
+    @dataclass
+    class Team:
+        name: str
+        members: List[str] = field(default_factory=list)
+
+    team = Team("Pythonistas")
+    ic(team)
+    ic(team.members)
+    team.members.append("John")
+    ic(team)
+    team.members.append(123)  # pyright: ignore[reportArgumentType]
+    ic(team)
