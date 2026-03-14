@@ -63,6 +63,35 @@ def test_implement_abc():
         ic(e)
 
 
+def test_abc_with_several_methods():
+    """
+    Задача 3: Контракт из нескольких методов
+    """
+
+    class DataSource(ABC):
+        @abstractmethod
+        def read(): ...
+        @abstractmethod
+        def write(data): ...
+
+    class FileStorage(DataSource):
+        def __init__(self) -> None:
+            super().__init__()
+
+        @staticmethod
+        def read():
+            return "Чтение из файла"
+
+        @staticmethod
+        def write(data):
+            return f"Запись в файл: {data}"
+
+    fs = FileStorage
+    ic(fs.read())
+    ic(fs.write("qwerty"))
+    ic(fs.write(3.14))
+
+
 def test_():
     """
     docstring.
