@@ -6,11 +6,12 @@
         "assertpy",
         "icecream",
         "pytest",
-        "ruff==0.15.0",
     ]
 
 [project.optional-dependencies]
-    dev = []
+    dev = [
+        "ruff==0.15.0",
+    ]
 
 [tool.ruff]
     # Общие настройки Ruff
