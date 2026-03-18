@@ -108,3 +108,77 @@ class TestDescriptorProtocol:
             ic(obj)
             ic(obj.attr)
             ic(obj.__dict__)
+
+
+class TestCreateDescriptorValidator:
+    """Шаг 3: Пишем свой собственный дескриптор-валидатор."""
+
+    def test_create_descriptor_validator(self):
+        """Задача:
+
+        Создать дескриптор NonNegative, который можно будет применить к любому атрибуту в любом классе.
+        Этот дескриптор должен гарантировать, что атрибуту нельзя присвоить отрицательное число.
+        """
+
+        ic("Init class NonNegative")
+
+        class NonNegative:
+            """Дескриптор, который не позволяет установить отрицательное значение."""
+
+            def __set_name__(self, owner, name):
+                # Этот "бонусный" магический метод вызывается при создании класса.
+                # Он позволяет дескриптору "узнать" имя атрибута, которому он присвоен.
+                print(f"  - In __set_name__: self: {self}, owner: {owner}, name: {name}")
+                self.private_name = "_" + name
+
+            def __get__(self, instance, owner):
+                print(f"  - In __get__: self: {self}, instance: {instance}, owner: {owner}")
+                # Получаем значение из __dict__ экземпляра по нашему приватному имени
+                return getattr(instance, self.private_name)
+
+            def __set__(self, instance, value):
+                print(f"  - In __set__: self: {self}, instance: {instance}, value: {value}")
+                # --- Вот наша логика валидации ---
+                if value < 0:
+                    raise ValueError("Значение не может быть отрицательным.")
+
+                # Сохраняем значение в __dict__ экземпляра под приватным именем
+                setattr(instance, self.private_name, value)
+
+        ic("Init class Product")
+
+        class Product:
+            price = NonNegative()
+            quantity = NonNegative()
+
+            def __init__(self, name, price, quantity):
+                self.name = name
+                self.price = price
+                self.quantity = quantity
+
+            def __repr__(self):
+                variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
+                return f"{type(self).__name__}({', '.join(variables)})"
+
+        ic("Create valid apple:")
+        with safe():
+            apple = Product("Apple", 10, 5)
+            ic(apple)
+            ic(apple.__dict__)
+            ic(apple.price)
+            ic(apple.quantity)
+
+        ic("Try to set valid price:")
+        with safe():
+            apple.price = 100
+            ic(apple)
+            ic(apple.price)
+
+        ic("Try to set negative price:")
+        with safe():
+            apple.price = -10
+
+        ic("Create invalid banana:")
+        with safe():
+            banana = Product("Banana", 10, -10)
+            ic(banana)
