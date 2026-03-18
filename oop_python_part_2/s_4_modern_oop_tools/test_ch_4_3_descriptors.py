@@ -366,6 +366,54 @@ def test_implement_rw_descriptor():
     ic(my_obj_1)
 
 
+def test_validated_string():
+    """
+    Задача 3: Правильное хранение значения в дескрипторе
+    """
+
+    class ValidatedString:
+        def __set_name__(self, owner, name):
+            self.private_name: str = "_" + name
+
+        def __get__(self, instance, owner):
+            if instance is None:
+                return self
+            return getattr(instance, self.private_name, None)
+
+        def __set__(self, instance, value):
+            if instance is not None:
+                if not isinstance(value, str):
+                    raise TypeError(
+                        f"Attribute '{self.private_name.lstrip('_')}' type should be 'str' but is '{type(value).__name__}'"
+                    )
+                setattr(instance, self.private_name, value)
+
+    class MyClass:
+        name = ValidatedString()
+
+        def __init__(self, name):
+            self.name = name
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    ic("-- Create my_obj:")
+    my_obj = MyClass("qwerty")
+    ic(my_obj)
+    ic(my_obj.name)
+
+    ic("-- Try to set valid str value:")
+    with safe():
+        my_obj.name = "valid name"
+    ic(my_obj)
+
+    ic("-- Try to set non-str value:")
+    with safe():
+        my_obj.name = 1
+    ic(my_obj)
+
+
 def test_():
     """
     docstring.
