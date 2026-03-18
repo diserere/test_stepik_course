@@ -414,6 +414,63 @@ def test_validated_string():
     ic(my_obj)
 
 
+def test_non_negative():
+    """
+    Задача 4: Дескриптор-валидатор NonNegative
+    """
+
+    class NonNegative:
+        def __set_name__(self, owner, name):
+            self.private_name: str = "_" + name
+
+        def __get__(self, instance, owner):
+            if instance is None:
+                return self
+            return getattr(instance, self.private_name, None)
+
+        def __set__(self, instance, value):
+            if instance is not None:
+                if not isinstance(value, int | float) or value < 0:
+                    raise ValueError(
+                        f"Attribute '{self.private_name.lstrip('_')}' should be non-negative, but was {value!r} type of '{type(value).__name__}'"
+                    )
+                setattr(instance, self.private_name, value)
+
+    class MyClass:
+        value = NonNegative()
+
+        def __init__(self, value):
+            self.value = value
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    ic("-- Create my_obj:")
+    with safe():
+        my_obj = MyClass(10.5)
+        ic(my_obj)
+    ic("-- Try to set valid value:")
+    with safe():
+        my_obj.value = 0
+        ic(my_obj)
+    ic("-- Try to set non-valid value:")
+    with safe():
+        my_obj.value = -1
+        ic(my_obj)
+    with safe():
+        my_obj.value = "100500"
+        ic(my_obj)
+
+    ic("-- Try to create non-valid obj:")
+    with safe():
+        my_obj = MyClass(-1)
+        ic(my_obj)
+    with safe():
+        my_obj = MyClass([1])
+        ic(my_obj)
+
+
 def test_():
     """
     docstring.
