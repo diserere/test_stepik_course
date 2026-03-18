@@ -203,6 +203,7 @@ def test_readonly_descriptor():
 
     class MyClass:
         PI = ConstantDescriptor(3.14159)
+        FI = ConstantDescriptor(1.61803)
 
         def __repr__(self):
             variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
@@ -212,13 +213,23 @@ def test_readonly_descriptor():
     my_cls = MyClass()
     ic(my_cls)
     ic(my_cls.PI)
+    ic(my_cls.FI)
     ic(my_cls.__dict__)
+    ic("---")
 
-    ic("Try to set attr:")
+    ic("Try to set attr PI:")
     with safe():
         my_cls.PI = 1.6
-        ic(my_cls)
-        ic(my_cls.PI)
+    ic(my_cls)
+    ic(my_cls.PI)
+    ic("---")
+
+    ic("Try to set attr FI:")
+    with safe():
+        my_cls.FI = 2.7
+    ic(my_cls)
+    ic(my_cls.FI)
+    ic("---")
 
     ic("Try to delete attr:")
     with safe():
@@ -226,6 +237,7 @@ def test_readonly_descriptor():
     ic(my_cls)
     with safe():
         ic(my_cls.PI)
+    ic("---")
 
     ic("Test class:")
     ic(MyClass)
@@ -237,6 +249,7 @@ def test_readonly_descriptor():
         ic(MyClass)
         ic(MyClass.PI)
         # ic(MyClass.__dict__)
+    ic("---")
 
 
 def test_():
