@@ -1,8 +1,5 @@
 import pytest
 
-# from icecream import ic
-
-
 print()
 
 
@@ -11,4 +8,3 @@ def delim():
     print()
     yield
     print()
-    # ic()
