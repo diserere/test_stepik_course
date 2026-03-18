@@ -182,3 +182,65 @@ class TestCreateDescriptorValidator:
         with safe():
             banana = Product("Banana", 10, -10)
             ic(banana)
+
+
+def test_readonly_descriptor():
+    """
+    Задача 1: Дескриптор для константы (только для чтения)
+    """
+
+    class ConstantDescriptor:
+        def __init__(self, value):
+            self.value = value
+
+        def __get__(self, instance, owner):
+            print(f"  - In __get__: self: {self}, instance: {instance}, owner: {owner}")
+            return self.value
+
+        def __set__(self, instance, value):
+            print(f"  - In __set__: self: {self}, instance: {instance}, value: {value}")
+            raise AttributeError("Attribute is read-only")
+
+    class MyClass:
+        PI = ConstantDescriptor(3.14159)
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    ic("Create instance:")
+    my_cls = MyClass()
+    ic(my_cls)
+    ic(my_cls.PI)
+    ic(my_cls.__dict__)
+
+    ic("Try to set attr:")
+    with safe():
+        my_cls.PI = 1.6
+        ic(my_cls)
+        ic(my_cls.PI)
+
+    ic("Try to delete attr:")
+    with safe():
+        del my_cls.PI
+    ic(my_cls)
+    with safe():
+        ic(my_cls.PI)
+
+    ic("Test class:")
+    ic(MyClass)
+    ic(MyClass.PI)
+    # ic(MyClass.__dict__)
+    ic("Try to set attr in class:")
+    with safe():
+        MyClass.PI = 1.6
+        ic(MyClass)
+        ic(MyClass.PI)
+        # ic(MyClass.__dict__)
+
+
+def test_():
+    """
+    docstring.
+    """
+    pass
