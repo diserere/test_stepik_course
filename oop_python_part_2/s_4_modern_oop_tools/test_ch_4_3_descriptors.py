@@ -252,6 +252,120 @@ def test_readonly_descriptor():
     ic("---")
 
 
+def test_implement_rw_descriptor():
+    """
+    Задача 2: Правильный дескриптор с __get__ и __set__
+    """
+
+    class ManagedAttribute:
+        def __init__(self, _type: type | tuple[type] = object) -> None:
+            self._type = _type
+
+        def __set_name__(self, owner, name):
+            self.private_name: str = "_" + name
+
+        def __get__(self, instance, owner):
+            if instance is None:
+                return self
+            return getattr(instance, self.private_name, None)
+
+        def __set__(self, instance, value):
+            if instance is not None:
+                if not isinstance(value, self._type):
+                    raise TypeError(
+                        f"Attribute '{self.private_name.lstrip('_')}' should be type of '{self._type}' but was '{type(value)}'"
+                    )
+                setattr(instance, self.private_name, value)
+
+    class MyClass:
+        name = ManagedAttribute(str)
+        value = ManagedAttribute(int)
+        params = ManagedAttribute((list, dict))  # pyright: ignore[reportArgumentType]
+        param_any_type = ManagedAttribute()
+
+        def __init__(self, name, value):
+            self.name = name
+            self.value = value
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    ic("-- Create my_obj_1")
+    my_obj_1 = MyClass("obj_1", 10)
+    ic(my_obj_1)
+    ic(my_obj_1.name)
+    ic(my_obj_1.value)
+
+    ic("-- Create my_obj_2")
+    my_obj_2 = MyClass("obj_2", 20)
+    ic(my_obj_2)
+    ic(my_obj_2.name)
+    ic(my_obj_2.value)
+
+    ic("-- Check my_obj_1")
+    ic(my_obj_1)
+    ic(my_obj_1.name)
+    ic(my_obj_1.value)
+
+    ic("-- Change my_obj_1")
+    with safe():
+        my_obj_1.name = "new_obj_1"
+    ic(my_obj_1)
+    ic(my_obj_2)
+
+    ic("-- Change my_obj_2")
+    with safe():
+        my_obj_2.value = 200
+    ic(my_obj_1)
+    ic(my_obj_2)
+
+    ic("-- Check change to non-valid type")
+
+    ic("Change name:")
+    with safe():
+        my_obj_1.name = 1
+    ic(my_obj_1)
+
+    ic("Change value:")
+    with safe():
+        my_obj_1.value = [1]
+    ic(my_obj_1)
+    with safe():
+        my_obj_1.value = 1.0
+    ic(my_obj_1)
+
+    ic("-- Change params:")
+    ic(my_obj_1.params)
+    with safe():
+        my_obj_1.params = [1, 2, 3]
+    ic(my_obj_1)
+    with safe():
+        my_obj_1.params = 100500
+    ic(my_obj_1)
+    with safe():
+        my_obj_1.params = set([1, 2, 3])
+    ic(my_obj_1)
+    with safe():
+        my_obj_1.params = ""
+    ic(my_obj_1)
+    with safe():
+        my_obj_1.params = {"param1": 1, "param2": "two"}
+    ic(my_obj_1)
+
+    ic("-- Change param_any_type:")
+    ic(my_obj_1.param_any_type)
+    with safe():
+        my_obj_1.param_any_type = 100500
+    ic(my_obj_1)
+    with safe():
+        my_obj_1.param_any_type = "qwerty"
+    ic(my_obj_1)
+    with safe():
+        my_obj_1.param_any_type = list("qwerty")
+    ic(my_obj_1)
+
+
 def test_():
     """
     docstring.
