@@ -471,8 +471,58 @@ def test_non_negative():
         ic(my_obj)
 
 
-def test_():
+def test_logged_access():
     """
-    docstring.
+    Задача 5: Дескриптор-логгер
     """
-    pass
+
+    class LoggedAccess:
+        def __set_name__(self, owner, name):
+            self.public_name: str = name
+            self.private_name: str = "_" + self.public_name
+
+        def __get__(self, instance, owner):
+            if instance is None:
+                return self
+            print(f"Чтение атрибута '{self.public_name}'")
+            return getattr(instance, self.private_name, None)
+
+        def __set__(self, instance, value):
+            if instance is not None:
+                print(f"Запись атрибута '{self.public_name}', новое значение = {value}")
+                setattr(instance, self.private_name, value)
+
+    class Book:
+        book_title = LoggedAccess()
+
+        def __init__(self, book_title):
+            self.book_title = book_title
+
+        def __repr__(self):
+            variables = [f"{k}={v!r}" for k, v in self.__dict__.items()]
+            return f"{type(self).__name__}({', '.join(variables)})"
+
+    ic("-- Try to create book:")
+    with safe():
+        book = Book("Robin Hood")
+        ic("-- do __repr__:")
+        ic(book)
+        ic("-- get attribute:")
+        ic(book.book_title)
+
+    ic("-- Try to set valid value:")
+    with safe():
+        book.book_title = "Hollywood"
+        ic("-- do __repr__:")
+        ic(book)
+        ic("-- get attribute:")
+        ic(book.book_title)
+
+    ic("-- Try to get class attribute:")
+    with safe():
+        ic(Book.book_title)  # pyright: ignore[reportGeneralTypeIssues]
+    ic("-- Try to set class attribute:")
+    with safe():
+        Book.book_title = "Hollywood"  # pyright: ignore[reportGeneralTypeIssues]
+        ic(Book.book_title)  # pyright: ignore[reportGeneralTypeIssues]
+
